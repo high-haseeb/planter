@@ -1,20 +1,20 @@
 "use client";
-import { useStateStore, useTabStore } from "@/stores/store";
+import { useStateStore, useTabStore } from "@/stores/kits/store";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 
 const Configurator = () => {
+  const activeIndex = useStateStore((state) => state.activeIndex);
   return (
     <div className="no-scrollbar flex overflow-y-scroll absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
       <div>
-      <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
-        <PlantName />
-      </div>
-
-        <Title />
-        <Size />
-        <Quantity />
+        <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
+          <PlantName />
+        </div>
+        {activeIndex !== undefined && <Title />}
+        <Rows />
+        <Cols />
         <Color />
         <PlanterSize />
         <Trolley />
@@ -33,14 +33,18 @@ const Configurator = () => {
   );
 };
 const Overview = () => {
-  return <Link href="/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">See Overview</Link>;
+  return (
+    <Link href="/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">
+      See Overview
+    </Link>
+  );
 };
 const PlantName = () => {
   // const garden = useStateStore();
   return (
     <>
       {/* <div>{garden.garden[garden.activeIndex].name}</div> */}
-      <div>Garden</div>
+      <div>Garden Kit</div>
       {/* <div className="flex gap-2"> */}
       {/*   <button title="delete planter" onClick={() => garden.deletePlanter(garden.garden[garden.activeIndex].name)}> */}
       {/*     <Image src={"/icons/bin.svg"} width={30} height={30} alt="del" /> */}
@@ -51,13 +55,13 @@ const PlantName = () => {
   );
 };
 const AutoLayout = () => {
-  const { maxQuantity, addPlanter, garden } = useStateStore();
+  const { COLS, ROWS, addPlanter, garden } = useStateStore();
   return (
     <button
       title="auto layout"
       className="text-white bg-[#2F322B] rounded-full flex py-2 px-8 gap-4 items-center justify-center text-lg"
       onClick={() => {
-        for (let index = garden.length; index <= maxQuantity; index++) {
+        for (let index = garden.length; index <= (COLS * ROWS); index++) {
           addPlanter(`planter${index}`, "#D35832", 1, index, true);
         }
       }}
@@ -81,11 +85,80 @@ const Add = () => {
     </button>
   );
 };
+const Cols = () => {
+  const { COLS, setCOLS, ROWS, quantity, garden, addPlanter } = useStateStore();
+  const [selectedOption, setSelectedOption] = useState(COLS);
+  const quantities = [];
+  for (let i = 2; i <= 10; i += 2) {
+    quantities.push(i);
+  }
+
+  return (
+    <Section title={"Maximum per row"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        Choose an option
+        <div className="grid grid-cols-6 justify-items-center cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
+                onClick={() => {
+                  setSelectedOption(value);
+                  setCOLS(value);
+                  console.log(garden.length < ROWS * value);
+                  for (let index = garden.length; index <= ROWS * value; index++) {
+                    addPlanter(`planter${index}`, "#D35832", 1, index, true);
+                  }
+                }}
+              >
+                {value}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+};
+const Rows = () => {
+  const { ROWS, setROWS, COLS, garden, addPlanter } = useStateStore();
+  const [selectedOption, setSelectedOption] = useState(ROWS);
+  const quantities = [1, 2, 3];
+
+  return (
+    <Section title={"Number of Rows"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        Choose an option
+        <div className="grid grid-cols-6 justify-items-center cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
+                onClick={() => {
+                  setSelectedOption(value);
+                  setROWS(value);
+                  console.log(garden.length, "max", value * COLS);
+                  for (let index = garden.length; index <= value * COLS; index++) {
+                    addPlanter(`planter${index}`, "#D35832", 1, index, true);
+                  }
+                }}
+              >
+                {value}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+};
 const Quantity = () => {
-  const { setQuantity, setMaxQuantity, width, height } = useStateStore();
+  const { setQuantity, setMaxQuantity, width, height, quantity, addPlanter, garden } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(0);
-  const quantities = []; 
-  for (let index = 2; index <= (width * height) / 20; index+=2) {
+  const quantities = [];
+  for (let index = 2; index <= (width * height) / 20; index += 2) {
     quantities.push(index);
   }
 
@@ -103,6 +176,12 @@ const Quantity = () => {
                   setSelectedOption(value);
                   setQuantity(value);
                   setMaxQuantity(value + 1);
+                  console.log("curr", quantity, "max", value);
+                  if (quantity < value) {
+                    for (let index = garden.length; index <= value; index++) {
+                      addPlanter(`planter${index}`, "#D35832", 1, index, true);
+                    }
+                  }
                 }}
               >
                 {value}
@@ -262,22 +341,22 @@ const Title = () => {
 const Size = () => {
   const setGardenWidth = useStateStore((state) => state.changeWidth);
   const setGardenHeight = useStateStore((state) => state.changeHeight);
-  const setMaxQuantity  = useStateStore((state) => state.setMaxQuantity); 
+  const setMaxQuantity = useStateStore((state) => state.setMaxQuantity);
   const [width, setWidth] = useState(20);
   const [height, setHeight] = useState(20);
 
   useEffect(() => {
-    setMaxQuantity((width * height) /20)
-  }, [])
+    setMaxQuantity((width * height) / 20);
+  }, []);
   const handleWidthChange = (value) => {
     setWidth(value.target.value);
     setGardenWidth(width);
-    setMaxQuantity((width * height) /20)
+    setMaxQuantity((width * height) / 20);
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
     setGardenHeight(height);
-    setMaxQuantity((width * height) /20)
+    setMaxQuantity((width * height) / 20);
   };
   return (
     <Section title={"garden size"}>
@@ -308,14 +387,22 @@ const Size = () => {
 };
 
 const Section = ({ children, title }) => {
-  const {activeTab, setActiveTab} = useTabStore();
+  const { activeTab, setActiveTab } = useTabStore();
   const [closed, setClosed] = useState(activeTab !== title);
   useEffect(() => {
-      setClosed(activeTab !== title)
-  }, [activeTab])
+    setClosed(activeTab !== title);
+  }, [activeTab]);
   return (
-    <div className={`w-full min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors p-4`}>
-      <button className="flex justify-between items-center" onClick={() => {setClosed((state) => !state); setActiveTab(title)}}>
+    <div
+      className={`w-full min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors p-4`}
+    >
+      <button
+        className="flex justify-between items-center"
+        onClick={() => {
+          setClosed((state) => !state);
+          setActiveTab(title);
+        }}
+      >
         <div className="text-lg text-gray-600 capitalize">{title}</div>
         <Image src={"/icons/expand.svg"} width={30} height={30} alt="expand" className={` transition-transform ${closed ? "-rotate-90" : ""}`} />
       </button>

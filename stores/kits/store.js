@@ -1,17 +1,15 @@
 import { create } from "zustand";
 
 const initialState = [];
-
-
 export const useTabStore = create((set, get) => ({
-  activeTab: '',
+  activeTab: "",
   setActiveTab: (activeTab) => set(() => ({ activeTab })),
 }));
 export const useStateStore = create((set, get) => ({
   garden: initialState,
   addPlanter: (name, color, size, index, trolley) =>
     set((state) => {
-      if (state.garden.length > state.maxQuantity){
+      if (state.garden.length > state.maxQuantity) {
         return { garden: state.garden };
       }
       return {
@@ -54,20 +52,22 @@ export const useStateStore = create((set, get) => ({
         garden: updatedPlants,
       };
     }),
- deletePlanter: (name) =>
+  deletePlanter: (name) =>
     set((state) => ({
       garden: state.garden.filter((item, _i) => item.name !== name),
     })),
-  activeIndex: undefined,
+
+  activeIndex: undefined, // undefined in the begining
   setActive: (index) => set(() => ({ activeIndex: index })),
-  width: 20,
-  height: 20,
-  maxQuantity: 2,
-  quantity: 2,
-  terrain: 'leaf',
-  setTerrain: (terrain) => set(() => ({ terrain })),
-  setMaxQuantity: (quantity) => set(() => ({ maxQuantity: quantity })),
-  setQuantity: (quantity) => set(() => ({ quantity })),
-  changeHeight: (height) => set(() => ({ height })),
-  changeWidth: (width) => set(() => ({ width })),
+
+  ROWS: 3,
+  setROWS: (ROWS) => set(() => ({ ROWS })),
+  COLS: 4,
+  setCOLS: (COLS) => set(() => ({ COLS })),
+  /**
+   * Sets the base for overall scene.
+   * @param {"stacky" | "bag"} base - the type of base
+   * **/
+  setBase: (base) => set(() => ({ base })),
+  base: "stacky",
 }));
