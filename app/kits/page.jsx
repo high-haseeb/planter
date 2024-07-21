@@ -1,6 +1,6 @@
 import Configurator from "@/components/kits/Configurator";
 import Navbar from "@/components/Navbar";
-import Scene from "@/components/Scene";
+import Scene from "@/components/kits/Scene";
 
 const Page = () => {
   return (

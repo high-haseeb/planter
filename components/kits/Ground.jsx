@@ -22,7 +22,7 @@ const Ground = (...props) => {
         <meshStandardMaterial color={'#B5EA6A'} />
       </RoundedBox>
 
-      <spotLight color="yellow" position={[0, 10, 0]} intensity={100}/>
+      <spotLight color="yellow" position={[0, 16, 0]} intensity={100}/>
 
 
       <RoundedBox position={[0, -depth / 2, 0]} args={[width * 1.1,height * 1.1, depth]} radius={2} bevelSegments={0} rotation={[Math.PI / 2,0,0]}>

@@ -2,23 +2,23 @@ import React from "react";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 import { useStateStore } from "@/stores/kits/store";
-import { Base } from "@/components/Base";
 
 export function Planter({ index, color, trolley, ...props }) {
   const { nodes, materials } = useGLTF("/planter.glb");
-  const base = new THREE.InstancedMesh(nodes.Circle033.geometry, new THREE.MeshStandardMaterial({ color: color, side: THREE.DoubleSide }), 5);
-  const leafs = new THREE.InstancedMesh(nodes.Plane038.geometry, materials["Material.003"], 5);
-  const soil = new THREE.InstancedMesh(nodes.Plane038_1.geometry, materials["Material.002"], 5);
+  const stacksPerTower = useStateStore(state => state.stacksPerTower);
+  const base = new THREE.InstancedMesh(nodes.Circle033.geometry, new THREE.MeshStandardMaterial({ color: color, side: THREE.DoubleSide }), stacksPerTower);
+  const leafs = new THREE.InstancedMesh(nodes.Plane038.geometry, materials["Material.003"], stacksPerTower);
+  const soil = new THREE.InstancedMesh(nodes.Plane038_1.geometry, materials["Material.002"], stacksPerTower);
   const planter = new THREE.Group();
 
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < stacksPerTower; index++) {
     nodes.Circle033.position.set(0, index * 1.99 + 1, 0);
     nodes.Circle033.rotation.set(0, index % 2 === 0 ? Math.PI / 4 : 0, 0);
     nodes.Circle033.updateMatrix();
     base.setMatrixAt(index, nodes.Circle033.matrix);
   }
   planter.add(base);
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < stacksPerTower; index++) {
     nodes.Plane038.position.set(0, index * 1.99 + 1, 0);
     nodes.Plane038.rotation.set(0, index % 2 === 0 ? Math.PI / 4 : 0, 0);
     nodes.Plane038.scale.set(14.407, 14.407, 14.407);
@@ -27,7 +27,7 @@ export function Planter({ index, color, trolley, ...props }) {
   }
   planter.add(leafs);
 
-  for (let index = 0; index < 5; index++) {
+  for (let index = 0; index < stacksPerTower; index++) {
     nodes.Plane038_1.position.set(0, index * 1.99 + 1, 0);
     nodes.Plane038_1.rotation.set(0, index % 2 === 0 ? Math.PI / 4 : 0, 0);
     nodes.Plane038_1.updateMatrix();
@@ -41,7 +41,6 @@ export function Planter({ index, color, trolley, ...props }) {
   return (
     <group {...props} onClick={() => setActive(index)}>
       <primitive object={planter}></primitive>
-      {trolley && <Base position={[-0.3, 0, 0.2]} />}
     </group>
   );
 }

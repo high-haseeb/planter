@@ -70,4 +70,6 @@ export const useStateStore = create((set, get) => ({
    * **/
   setBase: (base) => set(() => ({ base })),
   base: "stacky",
+  stacksPerTower : 4,
+  setStacksPerTower: (stacksPerTower) => set(() => ({ stacksPerTower })),
 }));

@@ -15,9 +15,11 @@ const Configurator = () => {
         {activeIndex !== undefined && <Title />}
         <Rows />
         <Cols />
+        <Stacks/>
         <Color />
         <PlanterSize />
-        <Trolley />
+        {/* <Trolley /> */}
+        <Base />
       </div>
 
       <div className="flex flex-col gap-4 w-full mt-12">
@@ -85,6 +87,38 @@ const Add = () => {
     </button>
   );
 };
+const Stacks = () => {
+  const { stacksPerTower, setStacksPerTower } = useStateStore();
+  const [selectedOption, setSelectedOption] = useState(stacksPerTower);
+  const quantities = [];
+  for (let i = 4; i <= 10; i += 1) {
+    quantities.push(i);
+  }
+
+  return (
+    <Section title={"Stacks Per Tower"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        Choose an option
+        <div className="grid grid-cols-6 justify-items-center cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
+                onClick={() => {
+                  setSelectedOption(value);
+                  setStacksPerTower(value);
+                }}
+              >
+                {value}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
 const Cols = () => {
   const { COLS, setCOLS, ROWS, quantity, garden, addPlanter } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(COLS);
@@ -194,6 +228,37 @@ const Quantity = () => {
   );
 };
 
+const Base = () => {
+  const setBase = useStateStore(state => state.setBase);
+  const [selectedOption, setSelectedOption] = useState("with trolley");
+
+  const quantities = [
+    { title: "40L Grow Bag", value: "bag" },
+    { title: "15L Stacky Planter", value: "stacky" },
+  ];
+  return (
+    <Section title={"Base"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        <div className="cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
+                onClick={() => {
+                  setSelectedOption(value.title);
+                  setBase(value.value);
+                }}
+              >
+                {value.title}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
 const Trolley = () => {
   const { setTrolley } = useStateStore();
   const [selectedOption, setSelectedOption] = useState("with trolley");
