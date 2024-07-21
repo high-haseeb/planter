@@ -64,18 +64,20 @@ const Plants = () => {
   // const y = -mod(index, COLS) * PAD + (COLS * 3.5) / 2 - 1;
   // const x = Math.floor(index / COLS) * PAD - (ROWS * 3.5) / 2 + 1;
   let dx;
-  for (let row = 0; row < ROWS; row++) {
-    gridLines.push([
-      [row * PAD - xOffset + PAD / 2, 0, -yOffset + PAD / 2],
-      [row * PAD - xOffset + PAD / 2, 0, COLS * PAD - yOffset - PAD / 2],
-    ]);
-    for (let col = 0; col < COLS; col++) {
-      if (ROWS === 1) break;
-      ROWS === 2 ? (dx = PAD / 2) : (dx = PAD);
+  if (garden.length !== 0) {
+    for (let row = 0; row < ROWS; row++) {
       gridLines.push([
-        [-dx, 0, col * PAD + PAD / 2 - yOffset],
-        [row * PAD - dx, 0, col * PAD + PAD / 2 - yOffset],
+        [row * PAD - xOffset + PAD / 2, 0, -yOffset + PAD / 2],
+        [row * PAD - xOffset + PAD / 2, 0, COLS * PAD - yOffset - PAD / 2],
       ]);
+      for (let col = 0; col < COLS; col++) {
+        if (ROWS === 1) break;
+        ROWS === 2 ? (dx = PAD / 2) : (dx = PAD);
+        gridLines.push([
+          [-dx, 0, col * PAD + PAD / 2 - yOffset],
+          [row * PAD - dx, 0, col * PAD + PAD / 2 - yOffset],
+        ]);
+      }
     }
   }
 
