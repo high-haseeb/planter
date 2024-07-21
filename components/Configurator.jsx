@@ -236,10 +236,11 @@ const Color = () => {
 
 const Title = () => {
   const { garden, activeIndex } = useStateStore();
-  const [title, setTitle] = useState(garden[activeIndex].name);
+  const name = activeIndex !== undefined ? garden[activeIndex].name : "Add some plants";
+  const [title, setTitle] = useState(name);
   useEffect(() => {
-    setTitle(garden[activeIndex].name);
-  }, [garden[activeIndex].name]);
+    setTitle(name);
+  }, [name]);
   // const [shouldChange, setShouldChange] = useState(false);
   const inputEl = useRef(null);
   return (

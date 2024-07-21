@@ -79,7 +79,7 @@ const Add = () => {
       title="add planter"
       className="text-white bg-[#2F322B] rounded-full flex py-2 px-8 gap-4 items-center justify-center text-lg"
       onClick={() => {
-        state.addPlanter(`plant ${state.activeIndex + 1}`, "#D35832", 1, state.activeIndex + 1, true);
+        state.addPlanter(`plant ${state.activeIndex + 1}`, "#D35832", 1, state.activeIndex !== undefined && state.activeIndex + 1, true);
       }}
     >
       Add Planter
@@ -380,10 +380,11 @@ const Color = () => {
 
 const Title = () => {
   const { garden, activeIndex } = useStateStore();
-  const [title, setTitle] = useState(garden[activeIndex].name);
+  const name = activeIndex !== undefined ? garden[activeIndex].name : "Add some plants";
+  const [title, setTitle] = useState(name);
   useEffect(() => {
-    setTitle(garden[activeIndex].name);
-  }, [garden[activeIndex].name]);
+    setTitle(name);
+  }, [name]);
   // const [shouldChange, setShouldChange] = useState(false);
   const inputEl = useRef(null);
   return (

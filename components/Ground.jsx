@@ -9,7 +9,7 @@ import { RoundedBox } from "@react-three/drei";
 import { useRef } from "react";
 
 const Ground = (...props) => {
-  const { width, height, maxQuantity } = useStateStore();
+  const { width, height } = useStateStore();
   const depth = 30;
   const materialRef = useRef(null);
 
