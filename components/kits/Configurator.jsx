@@ -17,7 +17,10 @@ const Configurator = () => {
         <Cols />
         <Stacks/>
         <Color />
-        <PlanterSize />
+        <RiserPipe/>
+        <MidTowerRiser/>
+        <Nutrients/>
+        {/* <PlanterSize /> */}
         {/* <Trolley /> */}
         <Base />
       </div>
@@ -140,7 +143,6 @@ const Cols = () => {
                 onClick={() => {
                   setSelectedOption(value);
                   setCOLS(value);
-                  console.log(garden.length < ROWS * value);
                   for (let index = garden.length; index <= ROWS * value; index++) {
                     addPlanter(`planter${index}`, "#D35832", 1, index, true);
                   }
@@ -173,7 +175,7 @@ const Rows = () => {
                 onClick={() => {
                   setSelectedOption(value);
                   setROWS(value);
-                  console.log(garden.length, "max", value * COLS);
+                  // console.log(garden.length, "max", value * COLS);
                   for (let index = garden.length; index <= value * COLS; index++) {
                     addPlanter(`planter${index}`, "#D35832", 1, index, true);
                   }
@@ -210,7 +212,7 @@ const Quantity = () => {
                   setSelectedOption(value);
                   setQuantity(value);
                   setMaxQuantity(value + 1);
-                  console.log("curr", quantity, "max", value);
+                  // console.log("curr", quantity, "max", value);
                   if (quantity < value) {
                     for (let index = garden.length; index <= value; index++) {
                       addPlanter(`planter${index}`, "#D35832", 1, index, true);
@@ -227,6 +229,101 @@ const Quantity = () => {
     </Section>
   );
 };
+const Nutrients = () => {
+  const setNutrient = useStateStore(state => state.setNutrient);
+  const [selectedOption, setSelectedOption] = useState(1);
+
+  const quantities = [
+    { title: "Hydroponic (2 x Fertilizer Injectors + nutrient buckets under each + a tap timer)", value: "hydroponic" },
+    { title: "Organic (tap timer only + fertilizer pellets added to planters)", value: "organic" },
+  ];
+  return (
+    <Section title={"Nutrients Options"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        <div className="cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
+                onClick={() => {
+                  setSelectedOption(value.title);
+                  setNutrient(value.value);
+                }}
+              >
+                {value.title}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
+const MidTowerRiser = () => {
+  const setMidTowerRiser = useStateStore(state => state.setMidTowerRiser);
+  const [selectedOption, setSelectedOption] = useState(1);
+
+  const quantities = [
+    { title: "no mid tower riser", value: 0 },
+    { title: "1 mid tower riser", value: 1 },
+    { title: "2 mid tower risers", value: 2 },
+  ];
+  return (
+    <Section title={"Mid tower risers"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        <div className="cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
+                onClick={() => {
+                  setSelectedOption(value.title);
+                  setMidTowerRiser(value.value);
+                }}
+              >
+                {value.title}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
+const RiserPipe = () => {
+  const setRiserPipe = useStateStore(state => state.setRiserPipe);
+  const [selectedOption, setSelectedOption] = useState("400 mm");
+
+  const quantities = [
+    { title: "400 mm ", value: 4 },
+    { title: "600 mm", value: 6 },
+    { title: "800 mm", value: 8 },
+  ];
+  return (
+    <Section title={"Riser Pipe Length"}>
+      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+        <div className="cursor-pointer">
+          {quantities.map((value, index) => {
+            return (
+              <div
+                key={index}
+                className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
+                onClick={() => {
+                  setSelectedOption(value.title);
+                  setRiserPipe(value.value);
+                }}
+              >
+                {value.title}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+    </Section>
+  );
+}
 
 const Base = () => {
   const setBase = useStateStore(state => state.setBase);

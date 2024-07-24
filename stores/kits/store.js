@@ -70,6 +70,15 @@ export const useStateStore = create((set, get) => ({
    * **/
   setBase: (base) => set(() => ({ base })),
   base: "stacky",
+
+  setRiserPipe: (riserPipe) => set(() => ({ riserPipe: riserPipe /2})),
+  riserPipe: 2,
+
+  setMidTowerRiser: (midTowerRiser) => set(() => ({ midTowerRiser})),
+  midTowerRiser: 2,
+
+  setNutrient: (nutrient) => set(() => ({ nutrient})),
+  nutrient: 2,
   stacksPerTower : 4,
   setStacksPerTower: (stacksPerTower) => set(() => ({ stacksPerTower })),
 }));

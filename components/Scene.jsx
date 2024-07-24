@@ -38,7 +38,6 @@ const Plants = () => {
         if (planterIndex >= garden.height * row) {
           row += 1;
         }
-        console.log(garden.maxQuantity);
         const xOffset = -row * 4 + garden.width / 2;
         let yOffset = planterIndex - row * garden.height;
         yOffset += garden.height / 2;
