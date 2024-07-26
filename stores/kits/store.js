@@ -29,6 +29,17 @@ export const useStateStore = create((set, get) => ({
       };
     }),
 
+  setAllTrolleys: (newTrolley) =>
+    set((state) => {
+      const updatedPlants = state.garden.map((plant) => ({
+        ...plant,
+        trolley: newTrolley,
+      }));
+      return {
+        garden: updatedPlants,
+      };
+    }),
+
   setTrolley: (trolley) =>
     set((state) => {
       const updatedPlants = [...state.garden];
@@ -71,14 +82,17 @@ export const useStateStore = create((set, get) => ({
   setBase: (base) => set(() => ({ base })),
   base: "stacky",
 
-  setRiserPipe: (riserPipe) => set(() => ({ riserPipe: riserPipe /2})),
-  riserPipe: 2,
+  setRiserPipe: (riserPipe) => set(() => ({ riserPipe: riserPipe })),
+  riserPipe: 0.4,
 
-  setMidTowerRiser: (midTowerRiser) => set(() => ({ midTowerRiser})),
+  setMidTowerRiser: (midTowerRiser) => set(() => ({ midTowerRiser })),
   midTowerRiser: 2,
 
-  setNutrient: (nutrient) => set(() => ({ nutrient})),
+  setNutrient: (nutrient) => set(() => ({ nutrient })),
   nutrient: 2,
-  stacksPerTower : 4,
+  stacksPerTower: 4,
   setStacksPerTower: (stacksPerTower) => set(() => ({ stacksPerTower })),
+
+  baseColor: "black",
+  setBaseColor: (baseColor) => set(() => ({ baseColor })),
 }));

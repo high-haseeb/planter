@@ -7,8 +7,8 @@ import Link from "next/link";
 const Configurator = () => {
   const activeIndex = useStateStore((state) => state.activeIndex);
   return (
-    <div className="no-scrollbar flex overflow-y-scroll absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
-      <div>
+    <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
+      <div className="h-[150vh] overflow-y-scroll no-scrollbar">
         <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
           <PlantName />
         </div>
@@ -17,11 +17,12 @@ const Configurator = () => {
         <Cols />
         <Stacks/>
         <Color />
+        <BaseColor />
         <RiserPipe/>
         <MidTowerRiser/>
         <Nutrients/>
         {/* <PlanterSize /> */}
-        {/* <Trolley /> */}
+        <IndvidualBase />
         <Base />
       </div>
 
@@ -231,7 +232,7 @@ const Quantity = () => {
 };
 const Nutrients = () => {
   const setNutrient = useStateStore(state => state.setNutrient);
-  const [selectedOption, setSelectedOption] = useState(1);
+  const [selectedOption, setSelectedOption] = useState("hydroponic");
 
   const quantities = [
     { title: "Hydroponic (2 x Fertilizer Injectors + nutrient buckets under each + a tap timer)", value: "hydroponic" },
@@ -297,9 +298,9 @@ const RiserPipe = () => {
   const [selectedOption, setSelectedOption] = useState("400 mm");
 
   const quantities = [
-    { title: "400 mm ", value: 4 },
-    { title: "600 mm", value: 6 },
-    { title: "800 mm", value: 8 },
+    { title: "400 mm ", value: 0.4 },
+    { title: "600 mm", value: 0.6 },
+    { title: "800 mm", value: 0.8 },
   ];
   return (
     <Section title={"Riser Pipe Length"}>
@@ -326,8 +327,8 @@ const RiserPipe = () => {
 }
 
 const Base = () => {
-  const setBase = useStateStore(state => state.setBase);
-  const [selectedOption, setSelectedOption] = useState("with trolley");
+  const setAllTrolleys = useStateStore(state => state.setAllTrolleys);
+  const [selectedOption, setSelectedOption] = useState("stacky");
 
   const quantities = [
     { title: "40L Grow Bag", value: "bag" },
@@ -344,7 +345,7 @@ const Base = () => {
                 className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
                 onClick={() => {
                   setSelectedOption(value.title);
-                  setBase(value.value);
+                  setAllTrolleys(value.value)
                 }}
               >
                 {value.title}
@@ -356,16 +357,16 @@ const Base = () => {
     </Section>
   );
 }
-const Trolley = () => {
+const IndvidualBase = () => {
   const { setTrolley } = useStateStore();
-  const [selectedOption, setSelectedOption] = useState("with trolley");
+  const [selectedOption, setSelectedOption] = useState("stacky");
 
   const quantities = [
-    { title: "With trolley", value: true },
-    { title: "Without trolley", value: false },
+    { title: "stacky", value: "stacky" },
+    { title: "bag", value: "bag" },
   ];
   return (
-    <Section title={"Inclusion"}>
+    <Section title={"Individual Planter Base"}>
       <div className="flex flex-col gap-2 mt-4 text-gray-500">
         <div className="cursor-pointer">
           {quantities.map((value, index) => {
@@ -420,6 +421,60 @@ const PlanterSize = () => {
   );
 };
 
+const BaseColor = () => {
+  const { setBaseColor } = useStateStore();
+  const [selected, setSelected] = useState("black");
+  const colors = [
+    { name: "black", hex: "#000" },
+    { name: "Terracotta", hex: "#D35832" },
+    { name: "Stone", hex: "#A8A5A1" },
+  ];
+  const colorEl = useRef(null);
+  return (
+    <Section title={"base color"}>
+      <div className="flex gap-8 mt-4">
+        {colors.map((color, index) => {
+          return (
+            <div
+              className="flex flex-col gap-2 justify-center items-center"
+              onClick={() => {
+                setBaseColor(color.hex);
+                setSelected(color.name);
+              }}
+            >
+              <div
+                className={`w-12 h-12 rounded-full ${selected === color.name ? "border-4 border-white" : ""}`}
+                key={index}
+                style={{ backgroundColor: color.hex }}
+              />
+              <p className="text-gray-500 capitalize">{color.name}</p>
+            </div>
+          );
+        })}
+
+        <div
+          className="flex flex-col gap-2 justify-center items-center"
+          onClick={() => {
+            colorEl.current.click();
+          }}
+        >
+          <input
+            type="color"
+            hidden
+            ref={colorEl}
+            onChange={(value) => {
+              setPlantColor(value.target.value);
+              setSelected(null);
+            }}
+          />
+          <Image src={"/icons/add.svg"} width={30} height={30} alt="add" className="w-12 h-12 rounded-full cursor-pointer" />
+
+          <p className="text-gray-500 capitalize">other</p>
+        </div>
+      </div>
+    </Section>
+  );
+}
 const Color = () => {
   const { setPlantColor } = useStateStore();
   const [selected, setSelected] = useState("black");

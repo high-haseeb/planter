@@ -6,6 +6,7 @@ import React, { Suspense, useMemo } from "react";
 import Ground from "@/components/kits/Ground";
 import { Instances as BagInstances, Model } from "@/components/kits/BagStand";
 import { StackyInstances, Stacky } from "@/components/kits/BasePlanter";
+import { Feeder } from "./Feeder";
 
 function Loader() {
   const { progress } = useProgress();
@@ -33,23 +34,22 @@ const Scene = () => (
   </div>
 );
 const Nutrient = () => {
-  const { nutrient, ROWS, COLS, stacksPerTower } = useStateStore();
-  const PAD = 4;
-  return (
-    <mesh position={[ ROWS * PAD, 0, COLS * PAD ]} scale={[1, stacksPerTower, 1]}>
-      <boxGeometry />
-      <meshStandardMaterial color={nutrient === "organic" ? "red" : "blue"} />
-    </mesh>
-  );
+  const { nutrient, COLS, ROWS } = useStateStore();
+  return <Feeder position={[1.3 , -1.6, -(COLS*1.2) + 20 ]} full={nutrient !== "organic"} scale={2}/>;
 };
 const Plants = () => {
-  const { garden, ROWS, COLS, base, stacksPerTower, setActive, riserPipe, midTowerRiser } = useStateStore();
+  const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser } = useStateStore();
 
   const PAD = 4;
   const MAX_PLANTS = COLS * ROWS;
   const gridLines = [];
   const xOffset = (PAD * ROWS) / 2;
   const yOffset = (PAD * COLS) / 2;
+
+      gridLines.push([
+        [ROWS*PAD/2- PAD/2, 0, 0],
+        [ROWS*PAD/2 -PAD/2 , 0, -(COLS*1.2 + 12) ],
+      ]);
 
   let dx;
   if (garden.length !== 0) {
@@ -61,10 +61,12 @@ const Plants = () => {
       for (let col = 0; col < COLS; col++) {
         if (ROWS === 1) break;
         ROWS === 2 ? (dx = PAD / 2) : (dx = PAD);
-        gridLines.push([
-          [-dx, 0, col * PAD + PAD / 2 - yOffset],
-          [row * PAD - dx, 0, col * PAD + PAD / 2 - yOffset],
-        ]);
+        if (((row === 0 || row === 1) && col === 0) || (row === 2 && col === COLS - 1)) {
+          gridLines.push([
+            [0, 0, col * PAD + PAD / 2 - yOffset],
+            [row * PAD - dx, 0, col * PAD + PAD / 2 - yOffset],
+          ]);
+        }
       }
     }
   }
@@ -75,7 +77,7 @@ const Plants = () => {
     const y = (-index % COLS) * PAD + yOffset - PAD / 2;
     return { x, y };
   };
-
+  const riserPipeOffset = 3;
   return (
     <>
       <StackyInstances>
@@ -86,7 +88,7 @@ const Plants = () => {
             return (
               <group key={`planter-${gardenIndex}`} onClick={() => setActive(gardenIndex)}>
                 {stacksPerTowerArray.map((_, stackIndex) => {
-                  const height = 2 + Math.floor(stackIndex / (stacksPerTower / (midTowerRiser + 1))) * 0.6;
+                  const height = 2 + Math.floor(stackIndex / (stacksPerTower / (midTowerRiser + 1))) * riserPipe;
                   return (
                     <Stacky
                       key={`stacky-${gardenIndex}-${stackIndex}`}
@@ -98,15 +100,15 @@ const Plants = () => {
                   );
                 })}
                 {/* pipe */}
-                <mesh position={[x, (riserPipe + stacksPerTower + midTowerRiser * 0.6) / 2, y]}>
-                  <cylinderGeometry args={[0.1, 0.1, riserPipe + stacksPerTower + midTowerRiser * 0.6]} />
+                <mesh position={[x, (stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset) / 2, y]}>
+                  <cylinderGeometry args={[0.1, 0.1, stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset]} />
                   <meshBasicMaterial color={"black"} />
                 </mesh>
                 {/* base */}
-                {base === "stacky" ? (
-                  <Stacky position={[x, 0.3, y]} scale={0.4} color={"black"} key={`base-${gardenIndex}`} />
-                ) : (
+                {planter.trolley === "bag" ? (
                   <Model position={[x - 3.0, -0.1, y - 2.1]} scale={1.5} key={`base-${gardenIndex}`} />
+                ) : (
+                  <Stacky position={[x, 0.3, y]} scale={0.4} color={baseColor} key={`base-${gardenIndex}`} />
                 )}
               </group>
             );
@@ -114,7 +116,13 @@ const Plants = () => {
         </BagInstances>
       </StackyInstances>
       {gridLines.map((line, index) => (
-        <Line key={`line-${index}`} points={line} color="black" lineWidth={6} position={[0, riserPipe + stacksPerTower + midTowerRiser * 0.6, 0]} />
+        <Line
+          key={`line-${index}`}
+          points={line}
+          color="black"
+          lineWidth={6}
+          position={[0, stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset, 0]}
+        />
       ))}
     </>
   );
