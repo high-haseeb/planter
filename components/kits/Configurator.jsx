@@ -647,7 +647,7 @@ const Size = () => {
 
 const Dimension = () => {
   const setShowDimensions = useStateStore((state) => state.setShowDimensions);
-  const [clicked, setClicked] = useState(useStateStore((state) => state.showDimensions));
+  const [clicked, setClicked] = useState(false);
   return (
     <button
       className={`p-4 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed bottom-12 left-12`}

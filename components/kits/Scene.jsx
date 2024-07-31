@@ -38,7 +38,7 @@ const Scene = () => {
 };
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[1.3, -1.6, -(COLS * 2)]} full={nutrient !== "organic"} scale={1} />;
+  return <Feeder position={[1.3, -1.6, -(COLS * 3)]} full={nutrient !== "organic"} scale={1} />;
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions } = useStateStore();
@@ -119,7 +119,7 @@ const Plants = () => {
         </BagInstances>
       </StackyInstances>
 
-      {showDimensions && (
+      {garden.length > 0 && showDimensions && (
         <group>
           <DimensionArrow
             start={new Vector3(ROWS * PAD, 0, -(COLS * 5.5) / 2)}

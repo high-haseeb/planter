@@ -98,7 +98,7 @@ export const useStateStore = create((set) => ({
   showDimensions: true,
   setShowDimensions: (showDimensions) => set(() => ({ showDimensions })),
 
-  width: 30,
+  width: 20,
   setWidth: (width) => set(() => ({ width })),
 
   height: 20,
