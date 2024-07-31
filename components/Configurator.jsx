@@ -2,15 +2,15 @@
 import { useStateStore, useTabStore } from "@/stores/store";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
-import Link from 'next/link'
+import Link from "next/link";
 
 const Configurator = () => {
   return (
     <div className="no-scrollbar flex overflow-y-scroll absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
       <div>
-      <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
-        <PlantName />
-      </div>
+        <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
+          <PlantName />
+        </div>
 
         <Title />
         <Size />
@@ -33,7 +33,11 @@ const Configurator = () => {
   );
 };
 const Overview = () => {
-  return <Link href="/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">See Overview</Link>;
+  return (
+    <Link href="/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">
+      See Overview
+    </Link>
+  );
 };
 const PlantName = () => {
   // const garden = useStateStore();
@@ -84,8 +88,8 @@ const Add = () => {
 const Quantity = () => {
   const { setQuantity, setMaxQuantity, width, height } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(0);
-  const quantities = []; 
-  for (let index = 2; index <= (width * height) / 20; index+=2) {
+  const quantities = [];
+  for (let index = 2; index <= (width * height) / 20; index += 2) {
     quantities.push(index);
   }
 
@@ -263,22 +267,22 @@ const Title = () => {
 const Size = () => {
   const setGardenWidth = useStateStore((state) => state.changeWidth);
   const setGardenHeight = useStateStore((state) => state.changeHeight);
-  const setMaxQuantity  = useStateStore((state) => state.setMaxQuantity); 
+  const setMaxQuantity = useStateStore((state) => state.setMaxQuantity);
   const [width, setWidth] = useState(20);
   const [height, setHeight] = useState(20);
 
   useEffect(() => {
-    setMaxQuantity((width * height) /20)
-  }, [])
+    setMaxQuantity((width * height) / 20);
+  }, []);
   const handleWidthChange = (value) => {
     setWidth(value.target.value);
     setGardenWidth(width);
-    setMaxQuantity((width * height) /20)
+    setMaxQuantity((width * height) / 20);
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
     setGardenHeight(height);
-    setMaxQuantity((width * height) /20)
+    setMaxQuantity((width * height) / 20);
   };
   return (
     <Section title={"garden size"}>
@@ -309,14 +313,22 @@ const Size = () => {
 };
 
 const Section = ({ children, title }) => {
-  const {activeTab, setActiveTab} = useTabStore();
+  const { activeTab, setActiveTab } = useTabStore();
   const [closed, setClosed] = useState(activeTab !== title);
   useEffect(() => {
-      setClosed(activeTab !== title)
-  }, [activeTab])
+    setClosed(activeTab !== title);
+  }, [activeTab]);
   return (
-    <div className={`w-full min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors p-4`}>
-      <button className="flex justify-between items-center" onClick={() => {setClosed((state) => !state); setActiveTab(title)}}>
+    <div
+      className={`w-full min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors p-4`}
+    >
+      <button
+        className="flex justify-between items-center"
+        onClick={() => {
+          setClosed((state) => !state);
+          setActiveTab(title);
+        }}
+      >
         <div className="text-lg text-gray-600 capitalize">{title}</div>
         <Image src={"/icons/expand.svg"} width={30} height={30} alt="expand" className={` transition-transform ${closed ? "-rotate-90" : ""}`} />
       </button>

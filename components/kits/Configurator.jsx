@@ -8,19 +8,20 @@ const Configurator = () => {
   const activeIndex = useStateStore((state) => state.activeIndex);
   return (
     <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
-      <div className="h-[150vh] overflow-y-scroll no-scrollbar">
-        <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
-          <PlantName />
-        </div>
+      <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
+        <PlantName />
+      </div>
+      <Dimension />
+      <div className="h-[150vh] overflow-y-scroll no-scrollbar relative">
         {activeIndex !== undefined && <Title />}
         <Rows />
         <Cols />
-        <Stacks/>
+        <Stacks />
         <Color />
         <BaseColor />
-        <RiserPipe/>
-        <MidTowerRiser/>
-        <Nutrients/>
+        <RiserPipe />
+        <MidTowerRiser />
+        <Nutrients />
         {/* <PlanterSize /> */}
         <IndvidualBase />
         <Base />
@@ -67,7 +68,7 @@ const AutoLayout = () => {
       title="auto layout"
       className="text-white bg-[#2F322B] rounded-full flex py-2 px-8 gap-4 items-center justify-center text-lg"
       onClick={() => {
-        for (let index = garden.length; index <= (COLS * ROWS); index++) {
+        for (let index = garden.length; index <= COLS * ROWS; index++) {
           addPlanter(`planter${index}`, "#D35832", 1, index, true);
         }
       }}
@@ -122,7 +123,7 @@ const Stacks = () => {
       </div>
     </Section>
   );
-}
+};
 const Cols = () => {
   const { COLS, setCOLS, ROWS, quantity, garden, addPlanter } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(COLS);
@@ -231,7 +232,7 @@ const Quantity = () => {
   );
 };
 const Nutrients = () => {
-  const setNutrient = useStateStore(state => state.setNutrient);
+  const setNutrient = useStateStore((state) => state.setNutrient);
   const [selectedOption, setSelectedOption] = useState("hydroponic");
 
   const quantities = [
@@ -260,9 +261,9 @@ const Nutrients = () => {
       </div>
     </Section>
   );
-}
+};
 const MidTowerRiser = () => {
-  const setMidTowerRiser = useStateStore(state => state.setMidTowerRiser);
+  const setMidTowerRiser = useStateStore((state) => state.setMidTowerRiser);
   const [selectedOption, setSelectedOption] = useState(1);
 
   const quantities = [
@@ -292,9 +293,9 @@ const MidTowerRiser = () => {
       </div>
     </Section>
   );
-}
+};
 const RiserPipe = () => {
-  const setRiserPipe = useStateStore(state => state.setRiserPipe);
+  const setRiserPipe = useStateStore((state) => state.setRiserPipe);
   const [selectedOption, setSelectedOption] = useState("400 mm");
 
   const quantities = [
@@ -324,10 +325,10 @@ const RiserPipe = () => {
       </div>
     </Section>
   );
-}
+};
 
 const Base = () => {
-  const setAllTrolleys = useStateStore(state => state.setAllTrolleys);
+  const setAllTrolleys = useStateStore((state) => state.setAllTrolleys);
   const [selectedOption, setSelectedOption] = useState("stacky");
 
   const quantities = [
@@ -345,7 +346,7 @@ const Base = () => {
                 className={`${selectedOption === value.title ? "text-brGreen" : "text-gray-700"} rounded-full  py-1  `}
                 onClick={() => {
                   setSelectedOption(value.title);
-                  setAllTrolleys(value.value)
+                  setAllTrolleys(value.value);
                 }}
               >
                 {value.title}
@@ -356,7 +357,7 @@ const Base = () => {
       </div>
     </Section>
   );
-}
+};
 const IndvidualBase = () => {
   const { setTrolley } = useStateStore();
   const [selectedOption, setSelectedOption] = useState("stacky");
@@ -474,7 +475,7 @@ const BaseColor = () => {
       </div>
     </Section>
   );
-}
+};
 const Color = () => {
   const { setPlantColor } = useStateStore();
   const [selected, setSelected] = useState("black");
@@ -604,6 +605,21 @@ const Size = () => {
   );
 };
 
+const Dimension = () => {
+  const setShowDimensions = useStateStore((state) => state.setShowDimensions);
+  const [clicked, setClicked] = useState(useStateStore((state) => state.showDimensions));
+  return (
+    <button
+      className={`p-4 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed bottom-12 left-12`}
+      onClick={() => {
+        setClicked(state => !state);
+        setShowDimensions(clicked);
+      }}
+    >
+      <Image src={"/icons/length.svg"} width={50} height={50} alt="length" className="" />
+    </button>
+  );
+};
 const Section = ({ children, title }) => {
   const { activeTab, setActiveTab } = useTabStore();
   const [closed, setClosed] = useState(activeTab !== title);

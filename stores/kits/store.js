@@ -95,4 +95,6 @@ export const useStateStore = create((set, get) => ({
 
   baseColor: "black",
   setBaseColor: (baseColor) => set(() => ({ baseColor })),
+  showDimensions : true,
+  setShowDimensions: (showDimensions) => set(() => ({ showDimensions })),
 }));

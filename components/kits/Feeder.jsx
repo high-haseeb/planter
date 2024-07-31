@@ -5,7 +5,7 @@ export function Feeder({ full, position, ...props }) {
   const { nodes, materials } = useGLTF('/models/feeder.glb')
   return (
     <group {...props} dispose={null} position={position}>
-      <group position={[-0, 0, 0]} rotation={[0, -Math.PI / 2, 0]}>
+      <group position={[-0, 0, 0]} rotation={[0, 0, 0]}>
         <mesh geometry={nodes.Cube.geometry} material={nodes.Cube.material} position={[-16.731, 2.945, 0.037]} scale={[0.951, 2.113, 1.46]} />
         <mesh geometry={nodes.Cylinder022.geometry} material={nodes.Cylinder022.material} position={[-17.098, 3.868, -0.19]} rotation={[-Math.PI / 2, 0, -Math.PI]} scale={[0.033, 0.13, 0.033]} />
         <mesh geometry={nodes.Cylinder020.geometry} material={nodes.Cylinder020.material} position={[-17.098, 3.868, 0.211]} rotation={[-Math.PI / 2, 0, -Math.PI]} scale={[0.033, 0.13, 0.033]} />
