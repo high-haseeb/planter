@@ -14,8 +14,9 @@ const Configurator = () => {
       <Dimension />
       <div className="h-[150vh] overflow-y-scroll no-scrollbar relative">
         {activeIndex !== undefined && <Title />}
-        <Rows />
-        <Cols />
+        <Size />
+        {/* <Rows /> */}
+        {/* <Cols /> */}
         <Stacks />
         <Color />
         <BaseColor />
@@ -558,31 +559,70 @@ const Title = () => {
   );
 };
 const Size = () => {
-  const setGardenWidth = useStateStore((state) => state.changeWidth);
-  const setGardenHeight = useStateStore((state) => state.changeHeight);
-  const setMaxQuantity = useStateStore((state) => state.setMaxQuantity);
+  const setGardenWidth = useStateStore((state) => state.setWidth);
+  const setGardenHeight = useStateStore((state) => state.setHeight);
+  const {ROWS, COLS, addPlanter, garden} = useStateStore();
+  const setROWS = useStateStore((state) => state.setROWS);
+  const setCOLS = useStateStore((state) => state.setCOLS);
   const [width, setWidth] = useState(20);
   const [height, setHeight] = useState(20);
 
-  useEffect(() => {
-    setMaxQuantity((width * height) / 20);
-  }, []);
+  let rows = 0;
+  let cols = 0;
   const handleWidthChange = (value) => {
     setWidth(value.target.value);
     setGardenWidth(width);
-    setMaxQuantity((width * height) / 20);
+    if (width <= 10) {
+      rows = 1;
+    } else if (width > 10 && width <= 15) {
+      rows = 2;
+    } else if (width > 15) {
+      rows = 3;
+    }
+    setROWS(rows);
+
+    for (let index = garden.length; index <= rows * COLS; index++) {
+      addPlanter(`planter${index}`, "#D35832", 1, index, true);
+    }
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
     setGardenHeight(height);
-    setMaxQuantity((width * height) / 20);
+
+    if (height <= 10) {
+      cols = 1;
+    } else if (height > 10 && height <= 15) {
+      cols = 2;
+    } else if (height > 15 && height <= 20) {
+      cols = 3;
+    } else if (height > 20 && height <= 25) {
+      cols = 4;
+    } else if (height > 25 && height <= 30) {
+      cols = 5;
+    } else if (height > 30 && height <= 35) {
+      cols = 6;
+    } else if (height > 35 && height <= 40) {
+      cols = 7;
+    } else if (height > 40 && height <= 45) {
+      cols = 8;
+    } else if (height > 45 && height <= 50) {
+      cols = 9;
+    } else if (height > 50 && height <= 55) {
+      cols = 10;
+    } else if (height > 55) {
+      cols = 11;
+    }
+    setCOLS(cols);
+    for (let index = garden.length; index <= cols * ROWS; index++) {
+      addPlanter(`planter${index}`, "#D35832", 1, index, true);
+    }
   };
   return (
     <Section title={"garden size"}>
       <div className="flex gap-2 my-2 text-gray-500">
         <div className="flex flex-col gap-4">
           <p className="">Height</p>
-          <input type="range" min="5" max="30" value={height} step="1" onChange={handleHeightChange} id="height" className="slider" />
+          <input type="range" min="10" max="100" value={height} step="1" onChange={handleHeightChange} id="height" className="slider" />
           <div className="flex">
             <div className="w-1/4 border-b-2 border-gray-300">
               <input type="number" value={height} min="5" max="30" onChange={handleHeightChange} className="bg-gray-100" />
@@ -592,7 +632,7 @@ const Size = () => {
         </div>
         <div className="flex flex-col gap-4">
           <p className="">Width</p>
-          <input type="range" min="5" max="30" value={width} step="1" onChange={handleWidthChange} id="width" className="slider" />
+          <input type="range" min="5" max="20" value={width} step="1" onChange={handleWidthChange} id="width" className="slider" />
           <div className="flex">
             <div className="w-1/4 border-b-2 border-gray-300">
               <input type="number" value={width} min="5" max="30" onChange={handleWidthChange} className="bg-gray-100" />
@@ -612,7 +652,7 @@ const Dimension = () => {
     <button
       className={`p-4 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed bottom-12 left-12`}
       onClick={() => {
-        setClicked(state => !state);
+        setClicked((state) => !state);
         setShowDimensions(clicked);
       }}
     >
