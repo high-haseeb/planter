@@ -1,11 +1,11 @@
 import { create } from "zustand";
 
 const initialState = [];
-export const useTabStore = create((set, get) => ({
+export const useTabStore = create((set) => ({
   activeTab: "",
   setActiveTab: (activeTab) => set(() => ({ activeTab })),
 }));
-export const useStateStore = create((set, get) => ({
+export const useStateStore = create((set) => ({
   garden: initialState,
   addPlanter: (name, color, size, index, trolley) =>
     set((state) => {
@@ -95,13 +95,12 @@ export const useStateStore = create((set, get) => ({
 
   baseColor: "black",
   setBaseColor: (baseColor) => set(() => ({ baseColor })),
-  showDimensions : true,
+  showDimensions: true,
   setShowDimensions: (showDimensions) => set(() => ({ showDimensions })),
 
-  width : 30,
+  width: 30,
   setWidth: (width) => set(() => ({ width })),
-  
-  height : 20,
-  setHeight: (height) => set(() => ({ height })),
 
+  height: 20,
+  setHeight: (height) => set(() => ({ height })),
 }));

@@ -1,13 +1,13 @@
 "use client";
 import { useStateStore } from "@/stores/kits/store";
-import { Environment, StatsGl, OrbitControls, useProgress, Html, Line } from "@react-three/drei";
+import { Environment, OrbitControls, useProgress, Html, Line } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
-import React, { Suspense, useEffect, useMemo, useRef } from "react";
+import React, { Suspense, useMemo } from "react";
 import Ground from "@/components/kits/Ground";
 import { Instances as BagInstances, Model } from "@/components/kits/BagStand";
 import { StackyInstances, Stacky } from "@/components/kits/BasePlanter";
 import { Feeder } from "./Feeder";
-import { LineBasicMaterial, Vector3 } from "three";
+import { Vector3 } from "three";
 
 function Loader() {
   const { progress } = useProgress();
@@ -24,7 +24,6 @@ const Scene = () => {
     <div className="flex-grow w-4/5 -z-0">
       <Canvas camera={{ position: [100, 10, 0], zoom: 7 }}>
         <Suspense fallback={<Loader />}>
-          <StatsGl />
           <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} />
 
           <Plants />
@@ -38,8 +37,8 @@ const Scene = () => {
   );
 };
 const Nutrient = () => {
-  const { nutrient, COLS, ROWS } = useStateStore();
-  return <Feeder position={[1.3, -1.6, -(COLS * 1.2)]} full={nutrient !== "organic"} scale={1} />;
+  const { nutrient, COLS } = useStateStore();
+  return <Feeder position={[1.3, -1.6, -(COLS * 2)]} full={nutrient !== "organic"} scale={1} />;
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions } = useStateStore();
@@ -50,10 +49,10 @@ const Plants = () => {
   const xOffset = (PAD * ROWS) / 2;
   const yOffset = (PAD * COLS) / 2;
 
-  gridLines.push([
-    [0, 0, 0],
-    [0, 0, 0],
-  ]);
+  // gridLines.push([
+  //   [0, 0, 0],
+  //   [0, 0, 0],
+  // ]);
 
   let dx;
   if (garden.length !== 0) {
@@ -91,18 +90,18 @@ const Plants = () => {
 
             return (
               <group key={`planter-${gardenIndex}`} onClick={() => setActive(gardenIndex)}>
-                {/* {stacksPerTowerArray.map((_, stackIndex) => { */}
-                {/*   const height = 2 + Math.floor(stackIndex / (stacksPerTower / (midTowerRiser + 1))) * riserPipe; */}
-                {/*   return ( */}
-                {/*     <Stacky */}
-                {/*       key={`stacky-${gardenIndex}-${stackIndex}`} */}
-                {/*       position={[x, stackIndex + height, y]} */}
-                {/*       scale={0.4} */}
-                {/*       rotation={[0, stackIndex % 2 === 0 ? Math.PI / 4 : 0, 0]} */}
-                {/*       color={planter.color} */}
-                {/*     /> */}
-                {/*   ); */}
-                {/* })} */}
+                {stacksPerTowerArray.map((_, stackIndex) => {
+                  const height = 2 + Math.floor(stackIndex / (stacksPerTower / (midTowerRiser + 1))) * riserPipe;
+                  return (
+                    <Stacky
+                      key={`stacky-${gardenIndex}-${stackIndex}`}
+                      position={[x, stackIndex + height, y]}
+                      scale={0.4}
+                      rotation={[0, stackIndex % 2 === 0 ? Math.PI / 4 : 0, 0]}
+                      color={planter.color}
+                    />
+                  );
+                })}
                 {/* pipe */}
                 <mesh position={[x, (stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset) / 2, y]}>
                   <cylinderGeometry args={[0.1, 0.1, stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset]} />

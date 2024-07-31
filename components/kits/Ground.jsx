@@ -10,9 +10,6 @@ import { useRef } from "react";
 
 const Ground = (...props) => {
   const { width, height } = useStateStore();
-  const SCALE = 5.5;
-  // const width = ROWS * SCALE;
-  // const height = COLS * SCALE*0.9;
   const depth = 30;
   const materialRef = useRef(null);
 
