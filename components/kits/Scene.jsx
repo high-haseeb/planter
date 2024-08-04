@@ -41,7 +41,7 @@ const Nutrient = () => {
   return <Feeder position={[1.3, -1.6, -(COLS * 3)]} full={nutrient !== "organic"} scale={1} />;
 };
 const Plants = () => {
-  const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions } = useStateStore();
+  const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity } = useStateStore();
 
   const PAD = 4;
   const MAX_PLANTS = COLS * ROWS;
@@ -85,7 +85,7 @@ const Plants = () => {
     <>
       <StackyInstances>
         <BagInstances>
-          {garden.slice(0, MAX_PLANTS).map((planter, gardenIndex) => {
+          {garden.slice(0, Math.min(maxQuantity, ROWS*COLS)).map((planter, gardenIndex) => {
             const { x, y } = calculatePosition(gardenIndex);
 
             return (

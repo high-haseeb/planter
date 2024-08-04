@@ -5,7 +5,7 @@ import React, { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
 const Configurator = () => {
-  const activeIndex = useStateStore((state) => state.activeIndex);
+  // const activeIndex = useStateStore((state) => state.activeIndex);
   return (
     <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
       <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
@@ -13,10 +13,9 @@ const Configurator = () => {
       </div>
       <Dimension />
       <div className="h-[150vh] overflow-y-scroll no-scrollbar relative">
-        {activeIndex !== undefined && <Title />}
+        <Title />
         <Size />
-        {/* <Rows /> */}
-        {/* <Cols /> */}
+        <Quantity/>
         <Stacks />
         <Color />
         <BaseColor />
@@ -194,10 +193,10 @@ const Rows = () => {
   );
 };
 const Quantity = () => {
-  const { setQuantity, setMaxQuantity, width, height, quantity, addPlanter, garden } = useStateStore();
+  const { setMaxQuantity, addPlanter, garden, ROWS, COLS } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(0);
   const quantities = [];
-  for (let index = 2; index <= (width * height) / 20; index += 2) {
+  for (let index = 2; index < (ROWS*COLS); index += 2) {
     quantities.push(index);
   }
 
@@ -213,13 +212,9 @@ const Quantity = () => {
                 className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
                 onClick={() => {
                   setSelectedOption(value);
-                  setQuantity(value);
-                  setMaxQuantity(value + 1);
-                  // console.log("curr", quantity, "max", value);
-                  if (quantity < value) {
+                  setMaxQuantity(value);
                     for (let index = garden.length; index <= value; index++) {
                       addPlanter(`planter${index}`, "#D35832", 1, index, true);
-                    }
                   }
                 }}
               >
@@ -561,7 +556,6 @@ const Title = () => {
 const Size = () => {
   const setGardenWidth = useStateStore((state) => state.setWidth);
   const setGardenHeight = useStateStore((state) => state.setHeight);
-  const {ROWS, COLS, addPlanter, garden} = useStateStore();
   const setROWS = useStateStore((state) => state.setROWS);
   const setCOLS = useStateStore((state) => state.setCOLS);
   const [width, setWidth] = useState(20);
@@ -581,9 +575,6 @@ const Size = () => {
     }
     setROWS(rows);
 
-    for (let index = garden.length; index <= rows * COLS; index++) {
-      addPlanter(`planter${index}`, "#D35832", 1, index, true);
-    }
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
@@ -613,9 +604,6 @@ const Size = () => {
       cols = 11;
     }
     setCOLS(cols);
-    for (let index = garden.length; index <= cols * ROWS; index++) {
-      addPlanter(`planter${index}`, "#D35832", 1, index, true);
-    }
   };
   return (
     <Section title={"garden size"}>

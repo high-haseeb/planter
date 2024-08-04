@@ -84,6 +84,8 @@ export const useStateStore = create((set) => ({
 
   setRiserPipe: (riserPipe) => set(() => ({ riserPipe: riserPipe })),
   riserPipe: 0.4,
+  maxQuantity : 4,
+  setMaxQuantity: (maxQuantity) => set(() => ({maxQuantity})),
 
   setMidTowerRiser: (midTowerRiser) => set(() => ({ midTowerRiser })),
   midTowerRiser: 2,
@@ -95,7 +97,7 @@ export const useStateStore = create((set) => ({
 
   baseColor: "black",
   setBaseColor: (baseColor) => set(() => ({ baseColor })),
-  showDimensions: true,
+  showDimensions: false,
   setShowDimensions: (showDimensions) => set(() => ({ showDimensions })),
 
   width: 20,
