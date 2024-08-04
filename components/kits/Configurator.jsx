@@ -29,8 +29,8 @@ const Configurator = () => {
 
       <div className="flex flex-col gap-4 w-full ">
         {/* <div className="flex gap-4 justify-center items-center w-full"> */}
-          {/* <AutoLayout /> */}
-          {/* <Add /> */}
+        {/* <AutoLayout /> */}
+        {/* <Add /> */}
         {/* </div> */}
         <div className=" w-full h-20 bg-brGreen rounded-b-3xl text-white flex items-center justify-center p-4 text-2xl">
           <Overview />
@@ -196,7 +196,7 @@ const Quantity = () => {
   const { setMaxQuantity, addPlanter, garden, ROWS, COLS } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(0);
   const quantities = [];
-  for (let index = 2; index < ROWS * COLS; index += 2) {
+  for (let index = 2; index <= ROWS * COLS; index += 2) {
     quantities.push(index);
   }
 
@@ -599,8 +599,8 @@ const Size = () => {
       cols = 9;
     } else if (height > 50 && height <= 55) {
       cols = 10;
-    } else if (height > 55) {
-      cols = 11;
+    } else {
+      cols = 10;
     }
     setCOLS(cols);
   };
