@@ -38,7 +38,7 @@ const Scene = () => {
 };
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[1.3, -1.6, -(COLS * 3)]} full={nutrient !== "organic"} scale={1} />;
+  return <Feeder position={[1.3, -1.6, (COLS * 2)]} full={nutrient !== "organic"} scale={1} />;
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity } = useStateStore();
