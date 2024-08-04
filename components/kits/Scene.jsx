@@ -38,10 +38,11 @@ const Scene = () => {
 };
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[1.3, -1.6, (COLS * 2)]} full={nutrient !== "organic"} scale={1} />;
+  return <Feeder position={[1.3, -1.6, COLS * 2]} full={nutrient !== "organic"} scale={1} />;
 };
 const Plants = () => {
-  const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity } = useStateStore();
+  const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity, width, height } =
+    useStateStore();
 
   const PAD = 4;
   const MAX_PLANTS = COLS * ROWS;
@@ -56,7 +57,7 @@ const Plants = () => {
 
   let dx;
   if (garden.length !== 0) {
-    for (let row = 0; row < Math.min(ROWS, maxQuantity/COLS); row++) {
+    for (let row = 0; row < Math.min(ROWS, maxQuantity / COLS); row++) {
       gridLines.push([
         [row * PAD - xOffset + PAD / 2, 0, -yOffset + PAD / 2],
         [row * PAD - xOffset + PAD / 2, 0, COLS * PAD - yOffset - PAD / 2],
@@ -85,7 +86,7 @@ const Plants = () => {
     <>
       <StackyInstances>
         <BagInstances>
-          {garden.slice(0, Math.min(maxQuantity, ROWS*COLS)).map((planter, gardenIndex) => {
+          {garden.slice(0, Math.min(maxQuantity, ROWS * COLS)).map((planter, gardenIndex) => {
             const { x, y } = calculatePosition(gardenIndex);
 
             return (
@@ -124,29 +125,29 @@ const Plants = () => {
           <DimensionArrow
             start={new Vector3(ROWS * PAD, 0, -(COLS * 5.5) / 2)}
             end={new Vector3(ROWS * PAD, 0, (COLS * 5.5) / 2)}
-            measurement={`${COLS}m`}
+            measurement={`${height}ft`}
             axis="x"
           />
 
           <DimensionArrow
             start={new Vector3(-(ROWS * 5.5) / 2, 0, COLS * PAD)}
             end={new Vector3((ROWS * 5.5) / 2, 0, COLS * PAD)}
-            measurement={`${ROWS}m`}
+            measurement={`${width}ft`}
             axis="y"
           />
 
           <DimensionArrow
             start={new Vector3((ROWS * PAD) / 2, 0, -PAD / 2)}
             end={new Vector3((ROWS * PAD) / 2, 0, PAD / 2)}
-            measurement={`${COLS}m`}
+            measurement={`1m`}
             axis="x"
           />
 
           {ROWS > 1 && (
             <DimensionArrow
-              start={new Vector3(ROWS === 2 ? -PAD/2 : 0, 0, (COLS * PAD) / 2)}
-              end={new Vector3(ROWS === 2 ? PAD/2 : PAD, 0, (COLS * PAD) / 2)}
-              measurement={`${COLS}m`}
+              start={new Vector3(ROWS === 2 ? -PAD / 2 : 0, 0, (COLS * PAD) / 2)}
+              end={new Vector3(ROWS === 2 ? PAD / 2 : PAD, 0, (COLS * PAD) / 2)}
+              measurement={`1.5m`}
               axis="y"
             />
           )}
@@ -180,15 +181,15 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
         lineWidth={6}
       />
       <mesh position={start} rotation={axis === "x" ? [-Math.PI / 2, 0, 0] : [0, 0, Math.PI / 2]}>
-        <cylinderGeometry args={[0, 0.5, 2]} />
+        <cylinderGeometry args={[0, 0.3, 0.7]} />
         <meshBasicMaterial color={"black"} />
       </mesh>
       <mesh position={end} rotation={axis === "x" ? [Math.PI / 2, 0, 0] : [0, 0, -Math.PI / 2]}>
-        <cylinderGeometry args={[0, 0.5, 2]} />
+        <cylinderGeometry args={[0, 0.3, 0.7]} />
         <meshBasicMaterial color={"black"} />
       </mesh>
 
-      <Html position={origin}>
+      <Html position={origin} zIndexRange={[0, -4]} >
         <div className="bg-gray-700 rounded-xl px-4 py-2 text-white">{measurement}</div>
       </Html>
     </group>
