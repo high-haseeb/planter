@@ -189,7 +189,7 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
         <meshBasicMaterial color={"black"} />
       </mesh>
 
-      <Html position={origin} zIndexRange={[0, -4]} >
+      <Html position={origin} center >
         <div className="bg-gray-700 rounded-xl px-4 py-2 text-white">{measurement}</div>
       </Html>
     </group>
