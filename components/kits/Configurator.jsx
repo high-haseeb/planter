@@ -7,7 +7,7 @@ import Link from "next/link";
 const Configurator = () => {
   // const activeIndex = useStateStore((state) => state.activeIndex);
   return (
-    <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
+    <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/5  rounded-3xl h-[85vh]">
       <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
         <PlantName />
       </div>
@@ -15,7 +15,7 @@ const Configurator = () => {
       <div className="h-[150vh] overflow-y-scroll no-scrollbar relative">
         <Title />
         <Size />
-        <Quantity/>
+        <Quantity />
         <Stacks />
         <Color />
         <BaseColor />
@@ -196,7 +196,7 @@ const Quantity = () => {
   const { setMaxQuantity, addPlanter, garden, ROWS, COLS } = useStateStore();
   const [selectedOption, setSelectedOption] = useState(0);
   const quantities = [];
-  for (let index = 2; index < (ROWS*COLS); index += 2) {
+  for (let index = 2; index < ROWS * COLS; index += 2) {
     quantities.push(index);
   }
 
@@ -213,8 +213,8 @@ const Quantity = () => {
                 onClick={() => {
                   setSelectedOption(value);
                   setMaxQuantity(value);
-                    for (let index = garden.length; index <= value; index++) {
-                      addPlanter(`planter${index}`, "#D35832", 1, index, true);
+                  for (let index = garden.length; index <= value; index++) {
+                    addPlanter(`planter${index}`, "#D35832", 1, index, true);
                   }
                 }}
               >
@@ -538,7 +538,7 @@ const Title = () => {
   const inputEl = useRef(null);
   return (
     <div className={`w-full min-h-[10%] flex justify-between items-center border-b-2 border-y-gray-300 py-4 p-4`}>
-      <div className="flex gap-8">
+      <div className="flex gap-4">
         <div className="text-xl text-gray-600 capitalize">Title</div>
         <input
           type="text"
@@ -574,7 +574,6 @@ const Size = () => {
       rows = 3;
     }
     setROWS(rows);
-
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
