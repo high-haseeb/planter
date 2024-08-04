@@ -27,11 +27,11 @@ const Configurator = () => {
         <Base />
       </div>
 
-      <div className="flex flex-col gap-4 w-full mt-12">
-        <div className="flex gap-4 justify-center items-center w-full">
-          <AutoLayout />
-          <Add />
-        </div>
+      <div className="flex flex-col gap-4 w-full ">
+        {/* <div className="flex gap-4 justify-center items-center w-full"> */}
+          {/* <AutoLayout /> */}
+          {/* <Add /> */}
+        {/* </div> */}
         <div className=" w-full h-20 bg-brGreen rounded-b-3xl text-white flex items-center justify-center p-4 text-2xl">
           <Overview />
         </div>
