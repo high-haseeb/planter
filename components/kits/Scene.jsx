@@ -137,8 +137,8 @@ const Plants = () => {
           />
 
           <DimensionArrow
-            start={new Vector3((ROWS * PAD) / 2, 0, -PAD / 2)}
-            end={new Vector3((ROWS * PAD) / 2, 0, PAD / 2)}
+            start={new Vector3((ROWS * PAD) / 2, 0, -PAD  + ((COLS -1) * PAD) / 2)}
+            end={new Vector3((ROWS * PAD) / 2, 0,  (( COLS -1 ) * PAD) / 2)}
             measurement={`1m`}
             axis="x"
           />
@@ -189,7 +189,7 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
         <meshBasicMaterial color={"black"} />
       </mesh>
 
-      <Html position={origin} center >
+      <Html position={origin} center>
         <div className="bg-gray-700 rounded-xl px-4 py-2 text-white">{measurement}</div>
       </Html>
     </group>
