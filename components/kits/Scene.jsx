@@ -56,7 +56,7 @@ const Plants = () => {
 
   let dx;
   if (garden.length !== 0) {
-    for (let row = 0; row < ROWS; row++) {
+    for (let row = 0; row < Math.min(ROWS, maxQuantity/COLS); row++) {
       gridLines.push([
         [row * PAD - xOffset + PAD / 2, 0, -yOffset + PAD / 2],
         [row * PAD - xOffset + PAD / 2, 0, COLS * PAD - yOffset - PAD / 2],
