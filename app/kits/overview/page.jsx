@@ -16,7 +16,7 @@ const Details = () => {
   const state = useStateStore();
   
   return (
-    <div className="relative flex flex-col gap-6 justify-center items-center w-full px-4 py-6 h-auto max-w-screen-lg mx-auto">
+    <div className="relative flex flex-col gap-6 justify-center items-center w-full px-4 py-6 h-auto max-w-screen-lg mx-auto overflow-y-scroll">
       <div className="overflow-x-auto w-full h-auto">
         <table className="w-full text-black rounded-3xl">
           <thead className="sticky top-0 bg-green-200">
