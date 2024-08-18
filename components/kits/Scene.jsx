@@ -60,7 +60,13 @@ const CameraAdjuster = () => {
 const PAD = 4;
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} full={nutrient !== "organic"} scale={2} />;
+  const points = [[0, 1.1, -0.9], [0, 3, -( 2 * PAD + 2)]]
+  return (
+    <>
+      <Feeder position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} full={nutrient !== "organic"} scale={1} />
+      <Line points={points} color="black" lineWidth={6} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
+    </>
+  );
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity, width, height } =
@@ -82,7 +88,7 @@ const Plants = () => {
       if (row > 1 && row <= 2) {
         gridLines.push([
           [0, 0, yOffset - PAD / 2],
-          [-PAD , 0, yOffset - PAD / 2],
+          [-PAD, 0, yOffset - PAD / 2],
         ]);
       }
       if (row > 2) {

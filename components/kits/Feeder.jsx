@@ -24,7 +24,7 @@ export function Feeder({ full, position, ...props }) {
 
       <mesh geometry={nodes.Cylinder026.geometry} material={nodes.Cylinder026.material} position={[-0.187, 1.006, 0.017]} rotation={[-Math.PI / 2, 0, -Math.PI]} scale={[0.033, 0.13, 0.049]} />
       <mesh geometry={nodes.NurbsPath001.geometry} material={nodes.NurbsPath001.material} position={[1.776, 0.987, 0.842]} />
-      <mesh geometry={nodes.NurbsPath.geometry} material={nodes.NurbsPath.material} position={[-0.192, 0.998, -0.87]} />
+      {/* <mesh geometry={nodes.NurbsPath.geometry} material={nodes.NurbsPath.material} position={[-0.192, 0.998, -0.87]} /> */}
       <mesh geometry={nodes.Cylinder.geometry} material={nodes.Cylinder.material} position={[0.049, 0.326, 1.104]} rotation={[-Math.PI, 0, -Math.PI / 2]} scale={[-0.155, -0.045, -0.155]} />
       <mesh geometry={nodes.Cylinder001.geometry} material={nodes.Cylinder001.material} position={[-0.19, 1.007, -0.534]} rotation={[-Math.PI / 2, 0, -Math.PI]} scale={[0.05, 0.24, 0.037]} />
       <mesh geometry={nodes.Cylinder002.geometry} material={nodes.Cylinder002.material} position={[-0.19, 1.007, 0.497]} rotation={[-Math.PI / 2, 0, -Math.PI]} scale={[0.05, 0.158, 0.037]} />
