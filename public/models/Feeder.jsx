@@ -2,7 +2,7 @@ import React, { useRef } from 'react'
 import { useGLTF } from '@react-three/drei'
 
 export function Feeder({ full, position, ...props }) {
-  const { nodes, materials } = useGLTF('/models/feeder.glb')
+  const { nodes, materials } = useGLTF('/feeder.glb')
   return (
     <group {...props} dispose={null} position={position}>
       <mesh geometry={nodes.Cube.geometry} material={nodes.Cube.material} position={[0.177, 0.083, 0.037]} scale={[0.951, 2.113, 1.46]} />
@@ -32,4 +32,4 @@ export function Feeder({ full, position, ...props }) {
   )
 }
 
-useGLTF.preload('/models/feeder.glb')
+useGLTF.preload('/feeder.glb')

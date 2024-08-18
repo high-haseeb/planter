@@ -7,7 +7,7 @@ import Link from "next/link";
 const Configurator = () => {
   // const activeIndex = useStateStore((state) => state.activeIndex);
   return (
-    <div className="no-scrollbar flex overflow-y-scroll overflow-x-hidden absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/5  rounded-3xl h-[85vh]">
+    <div className="no-scrollbar flex overflow-y-scroll absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
       <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
         <PlantName />
       </div>
@@ -19,12 +19,12 @@ const Configurator = () => {
         <Stacks />
         <Color />
         <BaseColor />
-        <RiserPipe />
         <MidTowerRiser />
+        <RiserPipe />
         <Nutrients />
         {/* <PlanterSize /> */}
-        <IndvidualBase />
         <Base />
+        <IndvidualBase />
       </div>
 
       <div className="flex flex-col gap-4 w-full ">
@@ -41,24 +41,14 @@ const Configurator = () => {
 };
 const Overview = () => {
   return (
-    <Link href="/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">
+    <Link href="/kits/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">
       See Overview
     </Link>
   );
 };
 const PlantName = () => {
-  // const garden = useStateStore();
   return (
-    <>
-      {/* <div>{garden.garden[garden.activeIndex].name}</div> */}
-      <div>Garden Kit</div>
-      {/* <div className="flex gap-2"> */}
-      {/*   <button title="delete planter" onClick={() => garden.deletePlanter(garden.garden[garden.activeIndex].name)}> */}
-      {/*     <Image src={"/icons/bin.svg"} width={30} height={30} alt="del" /> */}
-      {/*   </button> */}
-      {/*   <Image src={"/icons/expand-white.svg"} width={30} height={30} alt="expand" /> */}
-      {/* </div> */}
-    </>
+      <div className="my-2">Garden Kit</div>
   );
 };
 const AutoLayout = () => {
@@ -69,7 +59,7 @@ const AutoLayout = () => {
       className="text-white bg-[#2F322B] rounded-full flex py-2 px-8 gap-4 items-center justify-center text-lg"
       onClick={() => {
         for (let index = garden.length; index <= COLS * ROWS; index++) {
-          addPlanter(`planter${index}`, "#D35832", 1, index, true);
+          addPlanter(`planter${index}`, "#D35832", 1, index, 'stacky');
         }
       }}
     >
@@ -214,7 +204,7 @@ const Quantity = () => {
                   setSelectedOption(value);
                   setMaxQuantity(value);
                   for (let index = garden.length; index <= value; index++) {
-                    addPlanter(`planter${index}`, "#D35832", 1, index, true);
+                    addPlanter(`planter${index}`, "#D35832", 1, index, 'stacky');
                   }
                 }}
               >
@@ -565,39 +555,39 @@ const Size = () => {
   let cols = 0;
   const handleWidthChange = (value) => {
     setWidth(value.target.value);
-    setGardenWidth(width);
-    if (width <= 10) {
+    setGardenWidth(value.target.value);
+    if (value.target.value <= 10) {
       rows = 1;
-    } else if (width > 10 && width <= 15) {
+    } else if (value.target.value > 10 && value.target.value <= 15) {
       rows = 2;
-    } else if (width > 15) {
+    } else if (value.target.value > 15) {
       rows = 3;
     }
     setROWS(rows);
   };
   const handleHeightChange = (value) => {
     setHeight(value.target.value);
-    setGardenHeight(height);
+    setGardenHeight(value.target.value);
 
-    if (height <= 10) {
+    if (value.target.value <= 10) {
       cols = 1;
-    } else if (height > 10 && height <= 15) {
+    } else if (value.target.value > 10 && value.target.value <= 15) {
       cols = 2;
-    } else if (height > 15 && height <= 20) {
+    } else if (value.target.value > 15 && value.target.value <= 20) {
       cols = 3;
-    } else if (height > 20 && height <= 25) {
+    } else if (value.target.value > 20 && value.target.value <= 25) {
       cols = 4;
-    } else if (height > 25 && height <= 30) {
+    } else if (value.target.value > 25 && value.target.value <= 30) {
       cols = 5;
-    } else if (height > 30 && height <= 35) {
+    } else if (value.target.value > 30 && value.target.value <= 35) {
       cols = 6;
-    } else if (height > 35 && height <= 40) {
+    } else if (value.target.value > 35 && value.target.value <= 40) {
       cols = 7;
-    } else if (height > 40 && height <= 45) {
+    } else if (value.target.value > 40 && value.target.value <= 45) {
       cols = 8;
-    } else if (height > 45 && height <= 50) {
+    } else if (value.target.value > 45 && value.target.value < 50) {
       cols = 9;
-    } else if (height > 50 && height <= 55) {
+    } else if (value.target.value >= 50 && value.target.value <= 55) {
       cols = 10;
     } else {
       cols = 10;
@@ -609,10 +599,10 @@ const Size = () => {
       <div className="flex gap-2 my-2 text-gray-500">
         <div className="flex flex-col gap-4">
           <p className="">Height</p>
-          <input type="range" min="10" max="100" value={height} step="1" onChange={handleHeightChange} id="height" className="slider" />
+          <input type="range" min="10" max="55" value={height} step="1" onChange={handleHeightChange} id="height" className="slider" />
           <div className="flex">
             <div className="w-1/4 border-b-2 border-gray-300">
-              <input type="number" value={height} min="5" max="30" onChange={handleHeightChange} className="bg-gray-100" />
+              <input type="number" value={height} min="5" max="50" onChange={handleHeightChange} className="bg-gray-100" />
             </div>
             <p className="text-gray-400">Feet</p>
           </div>
@@ -622,7 +612,7 @@ const Size = () => {
           <input type="range" min="5" max="20" value={width} step="1" onChange={handleWidthChange} id="width" className="slider" />
           <div className="flex">
             <div className="w-1/4 border-b-2 border-gray-300">
-              <input type="number" value={width} min="5" max="30" onChange={handleWidthChange} className="bg-gray-100" />
+              <input type="number" value={width} min="5" max="20" onChange={handleWidthChange} className="bg-gray-100" />
             </div>
             <p className="text-gray-400">Feet</p>
           </div>

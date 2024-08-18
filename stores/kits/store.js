@@ -75,10 +75,7 @@ export const useStateStore = create((set) => ({
   setROWS: (ROWS) => set(() => ({ ROWS })),
   COLS: 4,
   setCOLS: (COLS) => set(() => ({ COLS })),
-  /**
-   * Sets the base for overall scene.
-   * @param {"stacky" | "bag"} base - the type of base
-   * **/
+
   setBase: (base) => set(() => ({ base })),
   base: "stacky",
 
@@ -88,7 +85,7 @@ export const useStateStore = create((set) => ({
   setMaxQuantity: (maxQuantity) => set(() => ({maxQuantity})),
 
   setMidTowerRiser: (midTowerRiser) => set(() => ({ midTowerRiser })),
-  midTowerRiser: 2,
+  midTowerRiser: 0,
 
   setNutrient: (nutrient) => set(() => ({ nutrient })),
   nutrient: 2,

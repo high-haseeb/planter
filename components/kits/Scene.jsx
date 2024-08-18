@@ -36,41 +36,39 @@ const Scene = () => {
     </div>
   );
 };
+const PAD = 4;
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[1.3, -1.6, COLS * 2]} full={nutrient !== "organic"} scale={1} />;
+  return <Feeder position={[-PAD, 4, COLS/2 * PAD + 2*PAD]} full={nutrient !== "organic"} scale={2} />;
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity, width, height } =
     useStateStore();
 
-  const PAD = 4;
   const MAX_PLANTS = COLS * ROWS;
   const gridLines = [];
   const xOffset = (PAD * ROWS) / 2;
   const yOffset = (PAD * COLS) / 2;
 
-  // gridLines.push([
-  //   [0, 0, 0],
-  //   [0, 0, 0],
-  // ]);
-
-  let dx;
   if (garden.length !== 0) {
-    for (let row = 0; row < Math.min(ROWS, maxQuantity / COLS); row++) {
-      gridLines.push([
-        [row * PAD - xOffset + PAD / 2, 0, -yOffset + PAD / 2],
-        [row * PAD - xOffset + PAD / 2, 0, COLS * PAD - yOffset - PAD / 2],
-      ]);
-      for (let col = 0; col < COLS; col++) {
-        if (ROWS === 1) break;
-        ROWS === 2 ? (dx = PAD / 2) : (dx = PAD);
-        if (((row === 0 || row === 1) && col === 0) || (row === 2 && col === COLS - 1)) {
+    for (let row = 1; row <= Math.min(ROWS, Math.ceil(maxQuantity / COLS)); row++) {
+      for (let index = 1; index < Math.min(COLS, maxQuantity - ((row -1) * COLS)); index++) {
+        gridLines.push([
+          [(row * PAD) - xOffset - PAD / 2, 0, (COLS - index) * PAD - (yOffset - PAD / 2)],
+          [(row * PAD) - xOffset - PAD / 2, 0, (COLS - index + 1) * PAD - (yOffset - PAD / 2) - 2 * PAD],
+        ]);
+      }
+      if(row > 1 && row <= 2){
           gridLines.push([
-            [0, 0, col * PAD + PAD / 2 - yOffset],
-            [row * PAD - dx, 0, col * PAD + PAD / 2 - yOffset],
+            [PAD/2 , 0, yOffset - PAD/2],
+            [-PAD/2 , 0, yOffset - PAD/2],
           ]);
-        }
+      }
+      if(row > 2){
+          gridLines.push([
+            [-PAD , 0, yOffset - PAD/2],
+            [PAD , 0, yOffset - PAD/2],
+          ]);
       }
     }
   }
@@ -86,7 +84,7 @@ const Plants = () => {
     <>
       <StackyInstances>
         <BagInstances>
-          {garden.slice(0, Math.min(maxQuantity, ROWS * COLS)).map((planter, gardenIndex) => {
+          {garden.slice(0, Math.min(maxQuantity, MAX_PLANTS)).map((planter, gardenIndex) => {
             const { x, y } = calculatePosition(gardenIndex);
 
             return (
@@ -137,8 +135,8 @@ const Plants = () => {
           />
 
           <DimensionArrow
-            start={new Vector3((ROWS * PAD) / 2, 0, -PAD  + ((COLS -1) * PAD) / 2)}
-            end={new Vector3((ROWS * PAD) / 2, 0,  (( COLS -1 ) * PAD) / 2)}
+            start={new Vector3((ROWS * -1 * PAD) / 2, 0, -PAD + ((COLS - 1) * PAD) / 2)}
+            end={new Vector3((ROWS * -1 * PAD) / 2, 0, ((COLS - 1) * PAD) / 2)}
             measurement={`1m`}
             axis="x"
           />
@@ -178,19 +176,21 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
           [end.x, end.y, end.z],
         ]}
         color="black"
+        transparent
+        opacity={0.5}
         lineWidth={6}
       />
       <mesh position={start} rotation={axis === "x" ? [-Math.PI / 2, 0, 0] : [0, 0, Math.PI / 2]}>
         <cylinderGeometry args={[0, 0.3, 0.7]} />
-        <meshBasicMaterial color={"black"} />
+        <meshBasicMaterial color={"black"} transparent opacity={0.5} />
       </mesh>
       <mesh position={end} rotation={axis === "x" ? [Math.PI / 2, 0, 0] : [0, 0, -Math.PI / 2]}>
         <cylinderGeometry args={[0, 0.3, 0.7]} />
-        <meshBasicMaterial color={"black"} />
+        <meshBasicMaterial color={"black"} transparent opacity={0.5} />
       </mesh>
 
       <Html position={origin} center>
-        <div className="bg-gray-700 rounded-xl px-4 py-2 text-white">{measurement}</div>
+        <div className="bg-gray-700 rounded-xl px-4 py-2 text-white bg-opacity-50">{measurement}</div>
       </Html>
     </group>
   );
