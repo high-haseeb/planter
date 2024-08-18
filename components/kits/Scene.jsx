@@ -1,8 +1,8 @@
 "use client";
 import { useStateStore } from "@/stores/kits/store";
 import { Environment, OrbitControls, useProgress, Html, Line } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
-import React, { Suspense, useMemo } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
+import React, { Suspense, useMemo, useEffect } from "react";
 import Ground from "@/components/kits/Ground";
 import { Instances as BagInstances, Model } from "@/components/kits/BagStand";
 import { StackyInstances, Stacky } from "@/components/kits/BasePlanter";
@@ -21,7 +21,7 @@ function Loader() {
 const Scene = () => {
   const { garden } = useStateStore();
   return (
-    <div className="flex-grow w-4/5 -z-0">
+    <div className="lg:flex-grow lg:w-4/5 w-full z-0 h-3/4  ">
       <Canvas camera={{ position: [100, 10, 0], zoom: 7 }}>
         <Suspense fallback={<Loader />}>
           <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} />
@@ -31,15 +31,36 @@ const Scene = () => {
           {garden.length > 0 && <Nutrient />}
 
           <Environment preset="forest" />
+          <CameraAdjuster />
         </Suspense>
       </Canvas>
     </div>
   );
 };
+
+const CameraAdjuster = () => {
+  const { camera, size } = useThree();
+
+  useEffect(() => {
+    const handleResize = () => {
+      camera.aspect = size.width / size.height;
+      camera.updateProjectionMatrix();
+    };
+    if (size.width <= 768) {
+      camera.zoom = 3;
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [camera, size]);
+
+  return null;
+};
 const PAD = 4;
 const Nutrient = () => {
   const { nutrient, COLS } = useStateStore();
-  return <Feeder position={[-PAD, 4, COLS/2 * PAD + 2*PAD]} full={nutrient !== "organic"} scale={2} />;
+  return <Feeder position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} full={nutrient !== "organic"} scale={2} />;
 };
 const Plants = () => {
   const { garden, ROWS, COLS, baseColor, stacksPerTower, setActive, riserPipe, midTowerRiser, showDimensions, maxQuantity, width, height } =
@@ -52,23 +73,23 @@ const Plants = () => {
 
   if (garden.length !== 0) {
     for (let row = 1; row <= Math.min(ROWS, Math.ceil(maxQuantity / COLS)); row++) {
-      for (let index = 1; index < Math.min(COLS, maxQuantity - ((row -1) * COLS)); index++) {
+      for (let index = 1; index < Math.min(COLS, maxQuantity - (row - 1) * COLS); index++) {
         gridLines.push([
-          [(row * PAD) - xOffset - PAD / 2, 0, (COLS - index) * PAD - (yOffset - PAD / 2)],
-          [(row * PAD) - xOffset - PAD / 2, 0, (COLS - index + 1) * PAD - (yOffset - PAD / 2) - 2 * PAD],
+          [row * PAD - xOffset - PAD / 2, 0, (COLS - index) * PAD - (yOffset - PAD / 2)],
+          [row * PAD - xOffset - PAD / 2, 0, (COLS - index + 1) * PAD - (yOffset - PAD / 2) - 2 * PAD],
         ]);
       }
-      if(row > 1 && row <= 2){
-          gridLines.push([
-            [PAD/2 , 0, yOffset - PAD/2],
-            [-PAD/2 , 0, yOffset - PAD/2],
-          ]);
+      if (row > 1 && row <= 2) {
+        gridLines.push([
+          [0, 0, yOffset - PAD / 2],
+          [-PAD , 0, yOffset - PAD / 2],
+        ]);
       }
-      if(row > 2){
-          gridLines.push([
-            [-PAD , 0, yOffset - PAD/2],
-            [PAD , 0, yOffset - PAD/2],
-          ]);
+      if (row > 2) {
+        gridLines.push([
+          [-PAD, 0, yOffset - PAD / 2],
+          [PAD, 0, yOffset - PAD / 2],
+        ]);
       }
     }
   }
@@ -190,7 +211,7 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
       </mesh>
 
       <Html position={origin} center>
-        <div className="bg-gray-700 rounded-xl px-4 py-2 text-white bg-opacity-50">{measurement}</div>
+        <div className="bg-gray-700 rounded-xl px-4 lg:py-2 py-1 text-white text-xs bg-opacity-50">{measurement}</div>
       </Html>
     </group>
   );

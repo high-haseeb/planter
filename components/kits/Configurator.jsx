@@ -1,4 +1,4 @@
-"use client";
+'use client'
 import { useStateStore, useTabStore } from "@/stores/kits/store";
 import Image from "next/image";
 import React, { useEffect, useRef, useState } from "react";
@@ -7,11 +7,11 @@ import Link from "next/link";
 const Configurator = () => {
   // const activeIndex = useStateStore((state) => state.activeIndex);
   return (
-    <div className="no-scrollbar flex overflow-y-scroll absolute right-20 bottom-10 top-30 z-10 flex-col bg-white justify-between w-1/4  rounded-3xl h-[85vh]">
-      <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-4 text-2xl">
+    <><Dimension />
+    <div className="no-scrollbar flex overflow-y-scroll absolute right-20 lg:bottom-10 left-1/2 lg:right-10 bottom-6 lg:translate-x-0 p-6 lg:m-0 -translate-x-1/2 lg:top-30 z-10 flex-col  justify-between lg:w-1/4 w-full rounded-3xl lg:h-[85vh] h-[40vh]">
+      <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-2 lg:p-4 text-sm lg:text-2xl">
         <PlantName />
       </div>
-      <Dimension />
       <div className="h-[150vh] overflow-y-scroll no-scrollbar relative">
         <Title />
         <Size />
@@ -32,24 +32,22 @@ const Configurator = () => {
         {/* <AutoLayout /> */}
         {/* <Add /> */}
         {/* </div> */}
-        <div className=" w-full h-20 bg-brGreen rounded-b-3xl text-white flex items-center justify-center p-4 text-2xl">
+        <div className=" w-full h-8 lg:h-20 bg-brGreen rounded-b-3xl text-white flex items-center justify-center p-4 text-sm g:text-2xl">
           <Overview />
         </div>
       </div>
-    </div>
+    </div></>
   );
 };
 const Overview = () => {
   return (
-    <Link href="/kits/overview" className="py-4 px-8 text-lg rounded-full border-2 border-white">
+    <Link href="/kits/overview" className="py-1 lg:py-4 px-8 text-sm lg:text-lg rounded-full lg:border-2 border-white">
       See Overview
     </Link>
   );
 };
 const PlantName = () => {
-  return (
-      <div className="my-2">Garden Kit</div>
-  );
+  return <div className="my-2">Garden Kit</div>;
 };
 const AutoLayout = () => {
   const { COLS, ROWS, addPlanter, garden } = useStateStore();
@@ -59,7 +57,7 @@ const AutoLayout = () => {
       className="text-white bg-[#2F322B] rounded-full flex py-2 px-8 gap-4 items-center justify-center text-lg"
       onClick={() => {
         for (let index = garden.length; index <= COLS * ROWS; index++) {
-          addPlanter(`planter${index}`, "#D35832", 1, index, 'stacky');
+          addPlanter(`planter${index}`, "#D35832", 1, index, "stacky");
         }
       }}
     >
@@ -92,14 +90,14 @@ const Stacks = () => {
 
   return (
     <Section title={"Stacks Per Tower"}>
-      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+      <div className="flex flex-col gap-2 lg:mt-4 mt-0 text-gray-500">
         Choose an option
         <div className="grid grid-cols-6 justify-items-center cursor-pointer">
           {quantities.map((value, index) => {
             return (
               <div
                 key={index}
-                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
+                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-xs font-semibold  mr-2 `}
                 onClick={() => {
                   setSelectedOption(value);
                   setStacksPerTower(value);
@@ -192,19 +190,19 @@ const Quantity = () => {
 
   return (
     <Section title={"number of Quantity of planter"}>
-      <div className="flex flex-col gap-2 mt-4 text-gray-500">
+      <div className="flex flex-col gap-2 mt-4 text-gray-500 text-sm">
         Choose an option
         <div className="grid grid-cols-6 justify-items-center cursor-pointer">
           {quantities.map((value, index) => {
             return (
               <div
                 key={index}
-                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-sm font-semibold  mr-2`}
+                className={`${selectedOption === value ? "bg-brGreen text-white" : "text-gray-700"} rounded-full px-3 py-1 text-xs font-semibold  mr-2`}
                 onClick={() => {
                   setSelectedOption(value);
                   setMaxQuantity(value);
                   for (let index = garden.length; index <= value; index++) {
-                    addPlanter(`planter${index}`, "#D35832", 1, index, 'stacky');
+                    addPlanter(`planter${index}`, "#D35832", 1, index, "stacky");
                   }
                 }}
               >
@@ -527,19 +525,19 @@ const Title = () => {
   // const [shouldChange, setShouldChange] = useState(false);
   const inputEl = useRef(null);
   return (
-    <div className={`w-full min-h-[10%] flex justify-between items-center border-b-2 border-y-gray-300 py-4 p-4`}>
+    <div className={`w-full min-h-[10%] flex justify-between items-center border-b-2 border-y-gray-300 py-1 lg:py-4 p-4 bg-white`}>
       <div className="flex gap-4">
-        <div className="text-xl text-gray-600 capitalize">Title</div>
+        <div className="text-sm lg:text-xl text-gray-600 capitalize">Title</div>
         <input
           type="text"
-          className="text-xl capitalize text-brGreen"
+          className="text-sm lg:text-xl capitalize text-brGreen"
           value={title}
           disabled={false}
           ref={inputEl}
           onChange={(value) => setTitle(value.target.value)}
         />
       </div>
-      <Image src={"/icons/edit.svg"} width={30} height={30} alt="edit" className="cursor-pointer" onClick={() => inputEl.current.focus()} />
+      <Image src={"/icons/edit.svg"} width={30} height={30} alt="edit" className="cursor-pointer lg:w-auto w-5" onClick={() => inputEl.current.focus()} />
     </div>
   );
 };
@@ -596,7 +594,7 @@ const Size = () => {
   };
   return (
     <Section title={"garden size"}>
-      <div className="flex gap-2 my-2 text-gray-500">
+      <div className="flex gap-2 my-2 text-gray-500 text-xs lg:text-lg">
         <div className="flex flex-col gap-4">
           <p className="">Height</p>
           <input type="range" min="10" max="55" value={height} step="1" onChange={handleHeightChange} id="height" className="slider" />
@@ -627,13 +625,13 @@ const Dimension = () => {
   const [clicked, setClicked] = useState(true);
   return (
     <button
-      className={`p-4 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed bottom-12 left-12`}
+      className={`lg:p-4 p-1 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed lg:bottom-12 lg:left-12 top-12 left-12 pointer-events-auto cursor-pointer z-50 lg:w-20 w-6  lg:h-20 h-6`}
       onClick={() => {
         setClicked((state) => !state);
         setShowDimensions(clicked);
       }}
     >
-      <Image src={"/icons/length.svg"} width={50} height={50} alt="length" className="" />
+      <Image src={"/icons/length.svg"} width={50} height={50} alt="length" className="object-cover" />
     </button>
   );
 };
@@ -645,7 +643,7 @@ const Section = ({ children, title }) => {
   }, [activeTab]);
   return (
     <div
-      className={`w-full min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors p-4`}
+      className={`w-full min-h-[5%] lg:min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-1 lg:py-4 ${closed ? "bg-white" : "bg-gray-100"} transition-colors lg:p-4 p-2`}
     >
       <button
         className="flex justify-between items-center"
@@ -654,8 +652,14 @@ const Section = ({ children, title }) => {
           setActiveTab(title);
         }}
       >
-        <div className="text-lg text-gray-600 capitalize">{title}</div>
-        <Image src={"/icons/expand.svg"} width={30} height={30} alt="expand" className={` transition-transform ${closed ? "-rotate-90" : ""}`} />
+        <div className="text-xs lg:text-lg text-gray-600 capitalize">{title}</div>
+        <Image
+          src={"/icons/expand.svg"}
+          width={30}
+          height={30}
+          alt="expand"
+          className={` transition-transform ${closed ? "-rotate-90" : ""} w-4 lg:w-auto`}
+        />
       </button>
       <div className={`${closed ? "max-h-0" : "max-h-50"} transition-all overflow-hidden`}>{children}</div>
     </div>
