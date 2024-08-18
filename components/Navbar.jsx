@@ -4,7 +4,7 @@ import Image from "next/image";
 
 const Navbar = () => {
   return (
-    <div className="flex gap-8 justify-around items-center py-2 px-8 w-screen text-white bg-brGreen">
+    <div className="gap-8 justify-around items-center py-2 px-8 w-screen text-white bg-brGreen hidden lg:flex">
       <Promo icon={"shipping"} text={"free delivery"} />
       <Promo icon={"payment"} text={"secure payments"} />
       <SearchBar />

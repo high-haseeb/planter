@@ -8,7 +8,7 @@ const Configurator = () => {
   // const activeIndex = useStateStore((state) => state.activeIndex);
   return (
     <><Dimension />
-    <div className="no-scrollbar flex overflow-y-scroll absolute right-20 lg:bottom-10 left-1/2 lg:right-10 bottom-6 lg:translate-x-0 p-6 lg:m-0 -translate-x-1/2 lg:top-30 z-10 flex-col  justify-between lg:w-1/4 w-full rounded-3xl lg:h-[85vh] h-[40vh]">
+    <div className="no-scrollbar flex overflow-y-scroll absolute lg:right-20 lg:bottom-10 lg:left-auto left-1/2 bottom-6 lg:translate-x-0 p-6 lg:m-0 -translate-x-1/2 lg:top-30 z-10 flex-col  justify-between lg:w-1/4 w-full rounded-3xl lg:h-[85vh] h-[40vh]">
       <div className="w-full h-20 bg-brGreen rounded-t-3xl text-white flex items-center justify-between p-2 lg:p-4 text-sm lg:text-2xl">
         <PlantName />
       </div>
@@ -625,7 +625,7 @@ const Dimension = () => {
   const [clicked, setClicked] = useState(true);
   return (
     <button
-      className={`lg:p-4 p-1 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed lg:bottom-12 lg:left-12 top-12 left-12 pointer-events-auto cursor-pointer z-50 lg:w-20 w-6  lg:h-20 h-6`}
+      className={`lg:p-4 p-1 rounded-full ${clicked ? "bg-black/50" : "bg-green-700"} fixed lg:top-[85%] lg:left-12 top-12 left-12 pointer-events-auto cursor-pointer z-50 lg:w-20 w-6  lg:h-20 h-6`}
       onClick={() => {
         setClicked((state) => !state);
         setShowDimensions(clicked);
