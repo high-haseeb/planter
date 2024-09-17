@@ -15,14 +15,14 @@ const Ground = (...props) => {
 
   return (
     <group {...props}>
-      <RoundedBox args={[width, height * 0.8, 3]} radius={0.8}  bevelSegments={0} position={[0, -1, 0]} rotation={[Math.PI / 2,0,0]}>
+      <RoundedBox args={[width, height * 0.75, 3]} radius={0.8}  bevelSegments={0} position={[0, -1, 0]} rotation={[Math.PI / 2,0,0]}>
         <meshStandardMaterial color={'#B5EA6A'} />
       </RoundedBox>
 
       <spotLight color="yellow" position={[0, 16, 0]} intensity={100}/>
 
 
-      <RoundedBox position={[0, -depth / 2, 0]} args={[width * 1.1,(height * 1.1) * 0.8, depth]} radius={2} bevelSegments={0} rotation={[Math.PI / 2,0,0]}>
+      <RoundedBox position={[0, -depth / 2, 0]} args={[width * 1.1,(height * 1.1) * 0.75, depth]} radius={2} bevelSegments={0} rotation={[Math.PI / 2,0,0]}>
         <meshStandardMaterial
           transparent
           ref={materialRef}
