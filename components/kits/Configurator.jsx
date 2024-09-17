@@ -478,7 +478,7 @@ const Section = ({ children, title }) => {
     }, [activeTab]);
     return (
         <div
-            className={`w-full min-h-[5%] lg:min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-1 lg:py-2 ${closed ? "bg-white" : "bg-gray-100"} transition-colors lg:p-4 p-2 text-sm`}
+            className={`w-full min-h-[5%] lg:min-h-[10%] flex flex-col border-b-2 border-y-gray-300 py-1 lg:py-1 ${closed ? "bg-white" : "bg-gray-100"} transition-colors lg:p-4 p-2 text-sm`}
         >
             <button
                 className="flex justify-between items-center"
@@ -487,7 +487,7 @@ const Section = ({ children, title }) => {
                     setActiveTab(title);
                 }}
             >
-                <div className="text-xs lg:text-base text-gray-600 capitalize">{title}</div>
+                <div className="text-xs lg:text-sm text-gray-600 capitalize">{title}</div>
                 <Image
                     src={"/icons/expand.svg"}
                     width={30}
