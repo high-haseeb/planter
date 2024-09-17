@@ -30,7 +30,10 @@ const Scene = () => {
                     <Ground />
                     {garden.length > 0 && <Nutrient />}
 
-                    <Environment preset="forest" />
+                    <Environment files={["/forest_slope_1k.hdr"]} />
+                    {/* <ambientLight/> */}
+                    <directionalLight />
+                     
                     <CameraAdjuster />
                 </Suspense>
             </Canvas>
