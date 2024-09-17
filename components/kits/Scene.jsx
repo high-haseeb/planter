@@ -156,15 +156,15 @@ const Plants = () => {
             {garden.length > 0 && showDimensions && (
                 <group>
                     <DimensionArrow
-                        start={new Vector3(ROWS * PAD, 0, -(COLS * 5.5) / 2)}
-                        end={new Vector3( ROWS * PAD,  0,  (COLS * 5.5) / 2)}
+                        start={new Vector3(ROWS * PAD, 0, -((COLS * 5.5) * 0.75) / 2)}
+                        end={new Vector3( ROWS * PAD,  0,  ((COLS * 5.5) * 0.75) / 2)}
                         measurement={`${height}ft`}
                         axis="x"
                     />
 
                     <DimensionArrow
-                        start={new Vector3(-(ROWS * 5.5) / 2, 0, -COLS * PAD)}
-                        end={new Vector3((ROWS * 5.5) / 2, 0, -COLS * PAD)}
+                        start={new Vector3(-(ROWS * 5.5) * 0.75 / 2, 0, (-COLS * PAD) * 0.75)}
+                        end={new Vector3(  (ROWS * 5.5) * 0.75 / 2, 0,    (-COLS * PAD) * 0.75)}
                         measurement={`${width}ft`}
                         axis="y"
                     />
