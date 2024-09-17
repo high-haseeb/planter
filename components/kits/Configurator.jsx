@@ -8,7 +8,7 @@ const Configurator = () => {
     // const activeIndex = useStateStore((state) => state.activeIndex);
     return (
         <><Dimension />
-            <div className="no-scrollbar flex absolute lg:right-20 lg:top-40 lg:bottom-auto lg:left-auto left-1/2 bottom-6 lg:translate-x-0 p-6 lg:m-0 -translate-x-1/2 z-10 flex-col  justify-between lg:w-1/5 w-full rounded-3xl lg:max-h-[85vh] lg:h-auto h-[40vh]">
+            <div className="no-scrollbar flex absolute lg:right-10 lg:top-20 lg:bottom-auto lg:left-auto left-1/2 bottom-6 lg:translate-x-0 p-6 lg:m-0 -translate-x-1/2 z-10 flex-col  justify-between lg:w-1/5 w-full rounded-3xl lg:max-h-[85vh] lg:h-auto h-[40vh]">
                 <div className="w-full h-auto bg-brGreen rounded-t-3xl text-white flex items-center justify-center p-2 lg:p-3 text-sm lg:text-lg font-bold"> Garden </div>
                 <div className="overflow-y-scroll no-scrollbar relative">
                     {/* <Title /> */}

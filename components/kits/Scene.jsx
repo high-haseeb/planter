@@ -22,7 +22,7 @@ const Scene = () => {
     const { garden } = useStateStore();
     return (
         <div className="lg:flex-grow lg:w-4/5 w-full z-0 h-3/4  ">
-            <Canvas camera={{ position: [100, 10, 0], zoom: 7 }}>
+            <Canvas camera={{ position: [100, 10, 0], zoom: 5 }}>
                 <Suspense fallback={<Loader />}>
                     <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} />
 
@@ -157,7 +157,7 @@ const Plants = () => {
                 <group>
                     <DimensionArrow
                         start={new Vector3(ROWS * PAD, 0, -(COLS * 5.5) / 2)}
-                        end={  new Vector3(ROWS * PAD, 0,  (COLS * 5.5) / 2)}
+                        end={new Vector3( ROWS * PAD,  0,  (COLS * 5.5) / 2)}
                         measurement={`${height}ft`}
                         axis="x"
                     />

@@ -14,7 +14,7 @@ const Page = () => {
 
 const Details = () => {
   const state = useStateStore();
-  
+
   return (
     <div className="relative flex flex-col gap-6 justify-center items-center w-full px-4 py-6 h-auto max-w-screen-lg mx-auto overflow-y-scroll">
       <div className="overflow-x-auto w-full h-auto">
@@ -28,19 +28,23 @@ const Details = () => {
             </tr>
           </thead>
           <tbody>
-            {state.garden.map((value, index) => (
-              <tr key={index} className="text-lg md:text-xl border-b border-black">
-                <td className="p-2 md:p-4">{index}</td>
-                <td className="p-2 md:p-4">{value.name}</td>
-                <td className="p-2 md:p-4 flex items-center gap-2">
-                  <div className="w-4 h-4 rounded-full" style={{ backgroundColor: value.color }} />
-                  <span className="hidden md:block">{value.color}</span>
-                </td>
-                <td className="p-2 md:p-4 whitespace-nowrap">
-                  {value.trolley}
-                </td>
-              </tr>
-            ))}
+            {state.garden.map((value, index) => {
+              return (
+                <>{index > 0 &&
+                  (
+                    <tr key={index} className="text-lg md:text-xl border-b border-black">
+                      <td className="p-2 md:p-4">{index}</td>
+                      <td className="p-2 md:p-4">{value.name}</td>
+                      <td className="p-2 md:p-4 flex items-center gap-2">
+                        <div className="w-4 h-4 rounded-full" style={{ backgroundColor: value.color }} />
+                        <span className="hidden md:block">{value.color}</span>
+                      </td>
+                      <td className="p-2 md:p-4 whitespace-nowrap">
+                        {value.trolley}
+                      </td>
+                    </tr>)
+                }</>)
+            })}
           </tbody>
         </table>
       </div>
