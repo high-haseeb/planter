@@ -53,13 +53,13 @@ const CameraAdjuster = () => {
     useFrame(() => {
         if (stacksPerTower > 5) {
             if(size.width <= breakPoint){
-                camera.zoom = lerp(camera.zoom, 2.5, 0.1);
+                camera.zoom = lerp(camera.zoom, 3.2, 0.1);
             }else{
                 camera.zoom = lerp(camera.zoom, 5, 0.1);
             }
         } else {
             if(size.width <= breakPoint){
-                camera.zoom = lerp(camera.zoom, 2.5, 0.1);
+                camera.zoom = lerp(camera.zoom, 3.2, 0.1);
             }else{
                 camera.zoom = lerp(camera.zoom, 8, 0.1);
             }
