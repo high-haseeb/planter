@@ -29,10 +29,12 @@ const Scene = () => {
             <Canvas camera={{ position: [100, 10, 0], zoom: 5 }}>
                 <Suspense fallback={<Loader />}>
                     {/* <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} /> */}
-                    <Controls/>
-                    <Plants />
-                    <Ground />
-                    {garden.length > 0 && <Nutrient />}
+                    <Controls />
+                    <group position={[0, 0, -2]}>
+                        <Plants />
+                        <Ground />
+                        {garden.length > 0 && <Nutrient />}
+                    </group>
 
                     <Environment files={["/forest_slope_1k.hdr"]} />
                     <directionalLight />
@@ -49,7 +51,7 @@ const CameraAdjuster = () => {
     const { camera, size } = useThree();
     const { stacksPerTower } = useStateStore();
     useFrame(() => {
-        if(stacksPerTower > 5){
+        if (stacksPerTower > 5) {
             camera.zoom = lerp(camera.zoom, 5, 0.1);
         } else {
             camera.zoom = lerp(camera.zoom, 8, 0.1);
@@ -85,7 +87,7 @@ const Nutrient = () => {
     ]
     return (
         <>
-            <Feeder position={[-PAD, 4, (height * 0.75) /2 + 4]} full={nutrient !== "organic"} scale={1} />
+            <Feeder position={[-PAD, 4, (height * 0.75) / 2 + 4]} full={nutrient !== "organic"} scale={1} />
             <Line points={points} color="black" lineWidth={5} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
         </>
     );
