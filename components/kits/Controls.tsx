@@ -31,7 +31,9 @@ export const Controls = () => {
         ref,
         args: [camera, gl.domElement],
         enableDamping: true,
-        zoomToCursor: true
+        zoomToCursor: true,
+        minPolarAngle : 0,
+        maxPolarAngle: Math.PI / 3
       }}
     />
   );

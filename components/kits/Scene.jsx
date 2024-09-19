@@ -10,6 +10,7 @@ import { Feeder } from "./Feeder";
 import { Vector3 } from "three";
 import { OrbitControls } from "./OrbitControls";
 import { Controls } from "./Controls";
+import { lerp } from "three/src/math/MathUtils";
 
 function Loader() {
     const { progress } = useProgress();
@@ -46,6 +47,15 @@ const Scene = () => {
 
 const CameraAdjuster = () => {
     const { camera, size } = useThree();
+    const { stacksPerTower } = useStateStore();
+    useFrame(() => {
+        if(stacksPerTower > 5){
+            camera.zoom = lerp(camera.zoom, 5, 0.1);
+        } else {
+            camera.zoom = lerp(camera.zoom, 8, 0.1);
+        }
+        camera.updateProjectionMatrix()
+    })
 
     useEffect(() => {
         const handleResize = () => {
