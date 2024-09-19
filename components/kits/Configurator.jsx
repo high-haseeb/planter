@@ -382,7 +382,7 @@ const Size = () => {
     const setROWS = useStateStore((state) => state.setROWS);
     const setCOLS = useStateStore((state) => state.setCOLS);
     const [width, setWidth] = useState(20);
-    const [height, setHeight] = useState(20);
+    const [height, setHeight] = useState(30);
 
     let rows = 0;
     let cols = 0;

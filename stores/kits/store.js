@@ -100,6 +100,6 @@ export const useStateStore = create((set) => ({
   width: 20,
   setWidth: (width) => set(() => ({ width })),
 
-  height: 20,
+  height: 30,
   setHeight: (height) => set(() => ({ height })),
 }));
