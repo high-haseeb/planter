@@ -288,7 +288,7 @@ const BaseColor = () => {
                             }}
                         >
                             <div
-                                className={`w-12 h-12 rounded-full ${selected === color.name ? "border-4 border-white" : ""}`}
+                                className={`w-8 h-8 rounded-full ${selected === color.name ? "border-4 border-white" : ""}`}
                                 key={index}
                                 style={{ backgroundColor: color.hex }}
                             />
@@ -343,7 +343,7 @@ const Color = () => {
                             }}
                         >
                             <div
-                                className={`w-12 h-12 rounded-full ${selected === color.name ? "border-4 border-white" : ""}`}
+                                className={`w-8 h-8 rounded-full ${selected === color.name ? "border-4 border-white" : ""}`}
                                 key={index}
                                 style={{ backgroundColor: color.hex }}
                             />
