@@ -86,7 +86,7 @@ const Nutrient = () => {
     return (
         <>
             <Feeder position={[-PAD, 4, (height * 0.75) /2 + 4]} full={nutrient !== "organic"} scale={1} />
-            <Line points={points} color="black" lineWidth={6} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
+            <Line points={points} color="black" lineWidth={5} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
         </>
     );
 };
@@ -206,7 +206,7 @@ const Plants = () => {
                         key={`line-${index}`}
                         points={line}
                         color="black"
-                        lineWidth={6}
+                        lineWidth={5}
                         position={[0, stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset, 0]}
                     />
                 ))}

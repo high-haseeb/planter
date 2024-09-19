@@ -73,7 +73,7 @@ export const useStateStore = create((set) => ({
 
   ROWS: 3,
   setROWS: (ROWS) => set(() => ({ ROWS })),
-  COLS: 3,
+  COLS: 5,
   setCOLS: (COLS) => set(() => ({ COLS })),
 
   setBase: (base) => set(() => ({ base })),
