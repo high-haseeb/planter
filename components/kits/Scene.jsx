@@ -88,15 +88,25 @@ const PAD = 4;
 const Nutrient = () => {
     const { nutrient, COLS, stacksPerTower, height } = useStateStore();
     const h = stacksPerTower - 1;
+
     const points = [
         [0, 1.1, -2.0], [0, 1.1, -(2 * PAD + 2) / 2 - 1],
         [0, 1.1, -(2 * PAD + 2) / 2 - 1], [0, h, -(2 * PAD + 2) / 2 - 1],
         [0, h, -(2 * PAD + 2) / 2 - 1], [0, h, -(2 * PAD + 2)]
+
     ]
+    const {size} = useThree();
+    let lineWidth = 5;
+    const breakPoint = 768;
+    if(size.width <= breakPoint){
+        lineWidth = 3;
+    }else{
+        lineWidth = 5;
+    }
     return (
         <>
             <Feeder position={[-PAD, 4, (height * 0.75) / 2 + 4]} full={nutrient !== "organic"} scale={1} />
-            <Line points={points} color="black" lineWidth={5} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
+            <Line points={points} color="black" lineWidth={lineWidth} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
         </>
     );
 };
@@ -107,6 +117,13 @@ const Plants = () => {
     const gridLines = [];
     const xOffset = (PAD * ROWS) / 2;
     const yOffset = (PAD * COLS) / 2;
+    const {size} = useThree();
+
+    let lineWidth = 5;
+    const breakPoint = 768;
+    if(size.width <= breakPoint){
+        lineWidth = 3;
+    }
 
     if (garden.length !== 0) {
         for (let row = 1; row <= Math.min(ROWS, Math.ceil(maxQuantity / COLS)); row++) {
@@ -216,7 +233,7 @@ const Plants = () => {
                         key={`line-${index}`}
                         points={line}
                         color="black"
-                        lineWidth={5}
+                        lineWidth={lineWidth}
                         position={[0, stacksPerTower + midTowerRiser * riserPipe + riserPipeOffset, 0]}
                     />
                 ))}
@@ -226,6 +243,16 @@ const Plants = () => {
 const DimensionArrow = ({ start, end, measurement, axis }) => {
     const origin = end.clone().add(start).divideScalar(2);
 
+    const {size} = useThree();
+
+    let lineWidth = 5;
+    const breakPoint = 768;
+    if(size.width <= breakPoint){
+        lineWidth = 3;
+    }else{
+        lineWidth = 5;
+    }
+
     return (
         <group>
             <Line
@@ -233,7 +260,7 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
                 color="black"
                 transparent
                 opacity={0.5}
-                lineWidth={6}
+                lineWidth={lineWidth}
             />
             <mesh position={start} rotation={axis === "x" ? [-Math.PI / 2, 0, 0] : [0, 0, Math.PI / 2]}>
                 <cylinderGeometry args={[0, 0.3, 0.7]} />
