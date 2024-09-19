@@ -76,16 +76,16 @@ const CameraAdjuster = () => {
 
 const PAD = 4;
 const Nutrient = () => {
-    const { nutrient, COLS, stacksPerTower } = useStateStore();
+    const { nutrient, COLS, stacksPerTower, height } = useStateStore();
     const h = stacksPerTower - 1;
     const points = [
-        [0, 1.1, -0.9], [0, 1.1, -(2 * PAD + 2) / 2],
-        [0, 1.1, -(2 * PAD + 2) / 2], [0, h, -(2 * PAD + 2) / 2],
-        [0, h, -(2 * PAD + 2) / 2], [0, h, -(2 * PAD + 2)]
+        [0, 1.1, -2.0], [0, 1.1, -(2 * PAD + 2) / 2 - 1],
+        [0, 1.1, -(2 * PAD + 2) / 2 - 1], [0, h, -(2 * PAD + 2) / 2 - 1],
+        [0, h, -(2 * PAD + 2) / 2 - 1], [0, h, -(2 * PAD + 2)]
     ]
     return (
         <>
-            <Feeder position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} full={nutrient !== "organic"} scale={1} />
+            <Feeder position={[-PAD, 4, (height * 0.75) /2 + 4]} full={nutrient !== "organic"} scale={1} />
             <Line points={points} color="black" lineWidth={6} position={[-PAD, 4, (COLS / 2) * PAD + 2 * PAD]} />
         </>
     );
