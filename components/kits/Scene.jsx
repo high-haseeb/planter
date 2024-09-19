@@ -1,13 +1,15 @@
 "use client";
 import { useStateStore } from "@/stores/kits/store";
-import { Environment, OrbitControls, useProgress, Html, Line } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import React, { Suspense, useMemo, useEffect } from "react";
+import { Environment, useProgress, Html, Line } from "@react-three/drei";
+import { Canvas, useThree, useFrame } from "@react-three/fiber";
+import React, { Suspense, useMemo, useEffect, useRef } from "react";
 import Ground from "@/components/kits/Ground";
 import { Instances as BagInstances, Model } from "@/components/kits/BagStand";
 import { StackyInstances, Stacky } from "@/components/kits/BasePlanter";
 import { Feeder } from "./Feeder";
 import { Vector3 } from "three";
+import { OrbitControls } from "./OrbitControls";
+import { Controls } from "./Controls";
 
 function Loader() {
     const { progress } = useProgress();
@@ -20,26 +22,27 @@ function Loader() {
 
 const Scene = () => {
     const { garden } = useStateStore();
+
     return (
         <div className="lg:flex-grow lg:w-4/5 w-full z-0 h-3/4  ">
             <Canvas camera={{ position: [100, 10, 0], zoom: 5 }}>
                 <Suspense fallback={<Loader />}>
-                    <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} />
-
+                    {/* <OrbitControls makeDefault minPolarAngle={0} maxPolarAngle={Math.PI / 3} /> */}
+                    <Controls/>
                     <Plants />
                     <Ground />
                     {garden.length > 0 && <Nutrient />}
 
                     <Environment files={["/forest_slope_1k.hdr"]} />
-                    {/* <ambientLight/> */}
                     <directionalLight />
-                     
+
                     <CameraAdjuster />
                 </Suspense>
             </Canvas>
         </div>
     );
 };
+
 
 const CameraAdjuster = () => {
     const { camera, size } = useThree();
@@ -157,21 +160,21 @@ const Plants = () => {
                 <group>
                     <DimensionArrow
                         start={new Vector3(ROWS * PAD, 0, -((COLS * 5.5) * 0.75) / 2)}
-                        end={new Vector3( ROWS * PAD,  0,  ((COLS * 5.5) * 0.75) / 2)}
+                        end={new Vector3(ROWS * PAD, 0, ((COLS * 5.5) * 0.75) / 2)}
                         measurement={`${height}ft`}
                         axis="x"
                     />
 
                     <DimensionArrow
                         start={new Vector3(-(ROWS * 5.5) * 0.75 / 2, 0, (-COLS * PAD) * 0.75)}
-                        end={new Vector3(  (ROWS * 5.5) * 0.75 / 2, 0,    (-COLS * PAD) * 0.75)}
+                        end={new Vector3((ROWS * 5.5) * 0.75 / 2, 0, (-COLS * PAD) * 0.75)}
                         measurement={`${width}ft`}
                         axis="y"
                     />
 
                     <DimensionArrow
-                        start={new Vector3( Math.min(ROWS, Math.ceil(maxQuantity / COLS)) * 2.3 - 2.0 , 0, -PAD + ((COLS - 1) * PAD) / 2)}
-                        end={new Vector3(  Math.min(ROWS, Math.ceil(maxQuantity / COLS)) * 2.3  - 2.0 , 0,   ((COLS - 1) * PAD) / 2)}
+                        start={new Vector3(Math.min(ROWS, Math.ceil(maxQuantity / COLS)) * 2.3 - 2.0, 0, -PAD + ((COLS - 1) * PAD) / 2)}
+                        end={new Vector3(Math.min(ROWS, Math.ceil(maxQuantity / COLS)) * 2.3 - 2.0, 0, ((COLS - 1) * PAD) / 2)}
                         measurement={`1m`}
                         axis="x"
                     />
@@ -206,7 +209,7 @@ const DimensionArrow = ({ start, end, measurement, axis }) => {
     return (
         <group>
             <Line
-                points={[ [start.x, start.y, start.z], [end.x, end.y, end.z] ]}
+                points={[[start.x, start.y, start.z], [end.x, end.y, end.z]]}
                 color="black"
                 transparent
                 opacity={0.5}
