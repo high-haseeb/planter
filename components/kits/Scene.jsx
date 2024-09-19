@@ -8,7 +8,6 @@ import { Instances as BagInstances, Model } from "@/components/kits/BagStand";
 import { StackyInstances, Stacky } from "@/components/kits/BasePlanter";
 import { Feeder } from "./Feeder";
 import { Vector3 } from "three";
-import { OrbitControls } from "./OrbitControls";
 import { Controls } from "./Controls";
 import { lerp } from "three/src/math/MathUtils";
 
@@ -50,11 +49,20 @@ const Scene = () => {
 const CameraAdjuster = () => {
     const { camera, size } = useThree();
     const { stacksPerTower } = useStateStore();
+    const breakPoint = 768;
     useFrame(() => {
         if (stacksPerTower > 5) {
-            camera.zoom = lerp(camera.zoom, 5, 0.1);
+            if(size.width <= breakPoint){
+                camera.zoom = lerp(camera.zoom, 2.5, 0.1);
+            }else{
+                camera.zoom = lerp(camera.zoom, 5, 0.1);
+            }
         } else {
-            camera.zoom = lerp(camera.zoom, 8, 0.1);
+            if(size.width <= breakPoint){
+                camera.zoom = lerp(camera.zoom, 2.5, 0.1);
+            }else{
+                camera.zoom = lerp(camera.zoom, 8, 0.1);
+            }
         }
         camera.updateProjectionMatrix()
     })
@@ -64,7 +72,7 @@ const CameraAdjuster = () => {
             camera.aspect = size.width / size.height;
             camera.updateProjectionMatrix();
         };
-        if (size.width <= 768) {
+        if (size.width <= breakPoint) {
             camera.zoom = 3;
         }
 
